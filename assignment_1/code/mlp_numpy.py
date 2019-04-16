@@ -33,13 +33,28 @@ class MLP(object):
     Implement initialization of the network.
     """
 
-    ########################
-    # PUT YOUR CODE HERE  #
-    #######################
-    raise NotImplementedError
-    ########################
-    # END OF YOUR CODE    #
-    #######################
+    self.num_hidden = len(n_hidden)
+    self.num_layers = self.num_hidden + 1
+
+    self.lin_layer = []
+    self.non_lin = []
+
+    #initialize the layer 0 receiving the input
+    self.lin_layer.append(LinearModule(n_inputs, n_hidden[0]))
+    self.non_lin.append(ReLUModule())
+
+    #initialize layers l = 1, ... , N-1
+    for l in range(self.num_hidden - 1):
+      self.lin_layer.append(LinearModule(n_hidden[i], n_hidden[i+1]))
+      self.non_lin.append(ReLUModule())
+
+
+    #initialize output layer N
+    self.lin_layer.append(LinearModule(n_hidden[-1], n_classes))
+    self.non_lin.append(SoftMaxModule())
+
+    assert self.num_layers == len(self.lin_layer)
+
 
   def forward(self, x):
     """

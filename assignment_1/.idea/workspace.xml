@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d2817683-1f25-42c4-ab62-e7584b1514d0" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/code/modules.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/modules.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,7 +14,7 @@
     <SUITE FILE_PATH="coverage/assignment_1$pytest_in_unittests_py.coverage" NAME="pytest in unittests.py Coverage Results" MODIFIED="1555494653137" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
     <SUITE FILE_PATH="coverage/assignment_1$pytest_for_unittests_TestLayers_test_linear_backward.coverage" NAME="pytest for unittests.TestLayers.test_linear_backward Coverage Results" MODIFIED="1555423021429" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
     <SUITE FILE_PATH="coverage/assignment_1$mlp_numpy.coverage" NAME="mlp_numpy Coverage Results" MODIFIED="1555494347176" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
-    <SUITE FILE_PATH="coverage/assignment_1$pytest_for_unittests_TestLayers.coverage" NAME="pytest for unittests.TestLayers Coverage Results" MODIFIED="1555507146430" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/assignment_1$pytest_for_unittests_TestLayers.coverage" NAME="pytest for unittests.TestLayers Coverage Results" MODIFIED="1555510152212" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
     <SUITE FILE_PATH="coverage/assignment_1$train_mlp_numpy.coverage" NAME="train_mlp_numpy Coverage Results" MODIFIED="1555495080295" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
     <SUITE FILE_PATH="coverage/assignment_1$modules.coverage" NAME="modules Coverage Results" MODIFIED="1555423674612" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
   </component>
@@ -46,24 +45,24 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="11" />
+          <entry key="py" value="13" />
           <entry key="sh" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="PLAIN_TEXT" value="1" />
-          <entry key="Python" value="11" />
+          <entry key="Python" value="13" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="6159" />
+          <entry key="py" value="7040" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="6159" />
+          <entry key="Python" value="7040" />
         </counts>
       </usages-collector>
     </session>
@@ -83,20 +82,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/code/modules.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="82" selection-start-line="82" selection-end-line="82" />
+            <state relative-caret-position="135">
+              <caret line="176" column="44" lean-forward="true" selection-start-line="176" selection-start-column="44" selection-end-line="176" selection-end-column="44" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/code/unittests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="100" selection-start-line="100" selection-end-line="100" />
+            <state relative-caret-position="226">
+              <caret line="139" selection-start-line="139" selection-end-line="139" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -323,34 +322,34 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 13h 08m 17s.xml">
+    <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 15h 28m 27s.xml">
       <configuration name="pytest for unittests.TestLayers" configurationId="tests" />
     </history-entry>
-    <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 13h 09m 23s.xml">
+    <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 15h 32m 22s.xml">
       <configuration name="pytest for unittests.TestLayers" configurationId="tests" />
     </history-entry>
-    <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 13h 10m 42s.xml">
+    <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 15h 38m 49s.xml">
       <configuration name="pytest for unittests.TestLayers" configurationId="tests" />
     </history-entry>
-    <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 13h 12m 37s.xml">
+    <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 15h 39m 22s.xml">
       <configuration name="pytest for unittests.TestLayers" configurationId="tests" />
     </history-entry>
-    <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 13h 12m 44s.xml">
+    <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 15h 47m 03s.xml">
       <configuration name="pytest for unittests.TestLayers" configurationId="tests" />
     </history-entry>
-    <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 13h 14m 17s.xml">
+    <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 15h 51m 05s.xml">
       <configuration name="pytest for unittests.TestLayers" configurationId="tests" />
     </history-entry>
-    <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 13h 15m 24s.xml">
+    <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 16h 06m 50s.xml">
       <configuration name="pytest for unittests.TestLayers" configurationId="tests" />
     </history-entry>
-    <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 13h 49m 33s.xml">
+    <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 16h 07m 53s.xml">
       <configuration name="pytest for unittests.TestLayers" configurationId="tests" />
     </history-entry>
-    <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 15h 17m 12s.xml">
+    <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 16h 09m 10s.xml">
       <configuration name="pytest for unittests.TestLayers" configurationId="tests" />
     </history-entry>
-    <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 15h 17m 53s.xml">
+    <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 16h 09m 13s.xml">
       <configuration name="pytest for unittests.TestLayers" configurationId="tests" />
     </history-entry>
   </component>
@@ -365,14 +364,15 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1299" height="743" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.11332801" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32952693" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39967373" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32952693" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39967373" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32952693" />
@@ -402,26 +402,6 @@
           <url>file://$PROJECT_DIR$/code/train_mlp_numpy.py</url>
           <line>123</line>
           <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/code/modules.py</url>
-          <line>160</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/code/modules.py</url>
-          <line>183</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/code/modules.py</url>
-          <line>132</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/code/modules.py</url>
-          <line>82</line>
-          <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -496,20 +476,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/code/modules.py">
+    <entry file="file://$USER_HOME$/anaconda3/envs/dl/lib/python3.7/site-packages/numpy/core/fromnumeric.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="82" selection-start-line="82" selection-end-line="82" />
+        <state relative-caret-position="128">
+          <caret line="2504" selection-start-line="2504" selection-end-line="2504" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/envs/dl/lib/python3.7/unittest/case.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="113">
+          <caret line="614" selection-start-line="614" selection-end-line="614" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/code/unittests.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="100" selection-start-line="100" selection-end-line="100" />
+        <state relative-caret-position="226">
+          <caret line="139" selection-start-line="139" selection-end-line="139" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/modules.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="176" column="44" lean-forward="true" selection-start-line="176" selection-start-column="44" selection-end-line="176" selection-end-column="44" />
         </state>
       </provider>
     </entry>

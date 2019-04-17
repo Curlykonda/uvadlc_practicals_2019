@@ -63,10 +63,7 @@ class LinearModule(object):
       dout: gradients of the previous module, x_tilde (shape: )
     Returns:
       dx: gradients with respect to the input of the module
-    
-    TODO:
-    Implement backward pass of the module. Store gradient of the loss with respect to 
-    layer parameters in self.grads['weight'] and self.grads['bias']. 
+
     """
 
     #linear
@@ -80,6 +77,7 @@ class LinearModule(object):
 
     #biases dL/db
     #self.grads["bias"] = dout.T
+    #row-wise summation
     self.grads["bias"] = np.reshape(dout.sum(axis=0), self.grads["bias"].shape) #out_features x 1
     shape_bias = self.grads["bias"].shape
 
@@ -97,9 +95,7 @@ class ReLUModule(object):
       x: input to the module (shape: batch_size x in_features)
     Returns:
       out: output of the module
-    
-    TODO:
-    Implement forward pass of the module. 
+
     
     Hint: You can store intermediate variables inside the object. They can be used in backward pass computation.                                                           #
     """
@@ -120,9 +116,6 @@ class ReLUModule(object):
       dout: gradients of the previous modul
     Returns:
       dx: gradients with respect to the input of the module
-    
-    TODO:
-    Implement backward pass of the module.
     """
 
     # dL/dx-tilde
@@ -143,24 +136,23 @@ class SoftMaxModule(object):
     """
     Forward pass.
     Args:
-      x: input to the module
+      x: input to the module (shape: batch-size x in_features
     Returns:
       out: output of the module
-    
-    TODO:
-    Implement forward pass of the module. 
-    To stabilize computation you should use the so-called Max Trick - https://timvieira.github.io/blog/post/2014/02/11/exp-normalize-trick/
-    
-    Hint: You can store intermediate variables inside the object. They can be used in backward pass computation.                                                           #
+
     """
 
     # forward: map x-tilde -> x-activations := Softmax(x-tilde)
-    # Apply max trick for numerical stability
-    numerator = np.exp(x - np.max(x,axis=1)) #sum column-wise
-    denominator = numerator.sum(axis=1)
-
+    # Apply max trick for numerical stability, see https://timvieira.github.io/blog/post/2014/02/11/exp-normalize-trick/
+    x_max = x.max(axis=1).reshape((x.shape[0], 1))
+    shape_x = x.shape
+    shape_xmax = x_max.shape
+    numerator = np.exp(x - x_max)
+    denominator = np.reshape(numerator.sum(axis=1), (numerator.shape[0], 1)) #sum column-wise to sum up correspoding elements over multiple vectors
+    shape_num = numerator.shape
+    shape_den = denominator.shape
     out = numerator / denominator
-
+    shape_out = out.shape
     #store intermediate variable
     self.x = x
     self.out = out
@@ -175,23 +167,30 @@ class SoftMaxModule(object):
       dout: gradients of the previous modul
     Returns:
       dx: gradients with respect to the input of the module
-    
-    TODO:
-    Implement backward pass of the module.
     """
 
     #dx = dL/dx-tilde = dL/dx * dx/dx-tilde
     #dout = dL/dx  from the loss module
-    out_sqrd = np.dot(self.out, self.out.T)
+    s_dout = dout.shape
+    s_out = self.out.shape
+
+    #out_sqrd = np.dot(self.out, self.out.T)
+    #einsum convention simplifies matrix multiplication. instead of multiplying, summing and transposing we can use einsum, see http://ajcr.net/Basic-guide-to-einsum/
+    #label axis of matrix A and B with ij and ik respectively
+    #input: 2D arrays, output: 3D array with labels ijk
+    out_sqrd = np.einsum('ij, ik->ijk', self.out, self.out) #shape: batch-size x features x features
+    s_outsqrd = out_sqrd.shape
 
     #create tensor of shape batch-size x features x features with diagonal sub-matrices
     diag_out = np.zeros((self.out.shape[0], self.out.shape[1], self.out.shape[1]))
     diag_indices = np.arange(self.out.shape[1])
     diag_out[:, diag_indices, diag_indices] = self.out
-
+    s_diag = diag_out.shape
     dxdx_tilde = diag_out - out_sqrd
 
-    dx = np.einsum('ij, ijk -> ik', dout, dxdx_tilde)
+    dx = np.einsum('ij, ijk -> ik', dout, dxdx_tilde) # shape: batch-size x features
+
+    s_dx = dx.shape
 
     return dx
 

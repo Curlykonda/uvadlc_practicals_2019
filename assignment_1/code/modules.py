@@ -45,7 +45,7 @@ class LinearModule(object):
     """
 
     #whats the shape of input x? perhaps transpose
-    out = np.dot(self.params["weight"], x) + self.params["bias"]
+    out = np.dot(self.params["weight"], x.T) + self.params["bias"]
 
     #store intermediate variable for backward pass
     self.x = x

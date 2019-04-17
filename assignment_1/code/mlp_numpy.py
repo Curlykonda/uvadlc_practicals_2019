@@ -65,18 +65,18 @@ class MLP(object):
       x: input to the network
     Returns:
       out: outputs of the network
-    
-    TODO:
-    Implement forward pass of the network.
     """
+    shape = x.shape
+    out = x
+    #pass input forward through each layer
+    for l in range(self.num_layers):
+      #linear forward pass
+      out_lin = self.lin_layer[l].forward(out)
 
-    ########################
-    # PUT YOUR CODE HERE  #
-    #######################
-    raise NotImplementedError
-    ########################
-    # END OF YOUR CODE    #
-    #######################
+      #non-linear forward pass
+      out = self.non_lin[l].forward(out_lin)
+
+    #Where do I compute the loss?
 
     return out
 
@@ -88,15 +88,14 @@ class MLP(object):
       dout: gradients of the loss
     
     TODO:
-    Implement backward pass of the network.
+    Check backward pass implementation
     """
     
-    ########################
-    # PUT YOUR CODE HERE  #
-    #######################
-    raise NotImplementedError
-    ########################
-    # END OF YOUR CODE    #
-    #######################
+    #pass gradient of loss backwards through each layer
+    for l in range(self.num_layers -1, -1, -1):
+        #non-linear backward pass
+        dout = self.non_lin[i].backward(dout)
+        #linear backward pass
+        dout = self.lin_layer[i].backward(dout)
 
     return

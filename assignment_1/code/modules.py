@@ -43,21 +43,24 @@ class LinearModule(object):
       out: output of the module
 
     """
+    shape_x = x.shape
+    shape_w = self.params["weight"].shape # out_features x in_features
 
     #whats the shape of input x? perhaps transpose
     out = np.dot(self.params["weight"], x.T) + self.params["bias"]
 
+    shape_out = out.shape # out_features x batch_size
     #store intermediate variable for backward pass
     self.x = x
 
-    return out
+    return out.T
 
   def backward(self, dout):
     """
     Backward pass.
 
     Args:
-      dout: gradients of the previous module, x_tilde
+      dout: gradients of the previous module, x_tilde (shape: )
     Returns:
       dx: gradients with respect to the input of the module
     
@@ -67,13 +70,18 @@ class LinearModule(object):
     """
 
     #linear
-    dx = np.dot(dout, self.params["weight"])
+    dx = np.dot(dout, self.params["weight"]) #shape: batch_size x in_features
+    shape_dx = dx.shape
 
     #weights dL/dW
-    self.grads["weight"] = np.dot(dout.T, self.x.T)
+    shape_x = self.x.shape
+    shape_dout = dout.shape
+    self.grads["weight"] = np.dot(dout.T, self.x) #shape out_features x in_features
 
     #biases dL/db
-    self.grads["bias"] = dout
+    #self.grads["bias"] = dout.T
+    self.grads["bias"] = np.reshape(dout.sum(axis=0), self.grads["bias"].shape) #out_features x 1
+    shape_bias = self.grads["bias"].shape
 
     return dx
 
@@ -86,7 +94,7 @@ class ReLUModule(object):
     Forward pass.
     
     Args:
-      x: input to the module
+      x: input to the module (shape: batch_size x in_features)
     Returns:
       out: output of the module
     
@@ -119,7 +127,11 @@ class ReLUModule(object):
 
     # dL/dx-tilde
     #np.diag(self.x > 0)
-    dx = dout * (self.x > 0)
+    shape_x = self.x.shape
+    x_pos = (self.x > 0).astype(int)
+    shape_dout = dout.shape
+    #dx = np.dot(dout, np.diag(x))
+    dx = dout * x_pos #shape: batch_size x out_features
 
     return dx
 

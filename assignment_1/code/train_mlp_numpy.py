@@ -81,6 +81,8 @@ def train():
     batch_size = FLAGS.batch_size
     eval_freq = FLAGS.eval_freq #Frequency of evaluation on the test set
     data_dir = FLAGS.data_dir
+    plot_results = FLAGS.plot
+    train_treshold = 1e-6 #if train loss below that threshold, training stops
 
     # evaluation metrics
     acc_train = []
@@ -153,7 +155,7 @@ def train():
             print("TEST acc: {0:.4f}  & loss: {1:.4f}".format(acc_test[-1], loss_test[-1]))
 
         #Early stop when training loss below threshold?
-            train_treshold = 1e-6
+
             if len(loss_train) > 20:
                 prev_losses = loss_train[-20:-10]
                 cur_losses = loss_train[-10:]
@@ -177,26 +179,23 @@ def train():
     np.savetxt(res_path / 'loss_test.csv', loss_test, delimiter=',')
     np.savetxt(res_path / 'acc_test.csv', acc_test, delimiter=',')
 
-    #plot results
-    plt.plot(loss_train, label="Training")
-    plt.plot(loss_test, label="Test")
-    plt.xlabel('Time steps')
-    plt.ylabel('Loss')
+    if plot_results:
+        #plot results
+        plt.plot(loss_train, label="Training")
+        plt.plot(loss_test, label="Test")
+        plt.xlabel('Time steps')
+        plt.ylabel('Loss')
+        plt.title("Loss of minibatches over time steps")
+        plt.legend()
+        plt.show()
 
-    plt.title("Loss of minibatches over time steps")
-
-    plt.legend()
-    plt.show()
-
-    plt.plot(acc_train, label="Training")
-    plt.plot(acc_test, label="Test")
-    plt.xlabel('Time steps')
-    plt.ylabel('Accuracy')
-
-    plt.title("Accuracy of minibatches over time steps")
-
-    plt.legend()
-    plt.show()
+        plt.plot(acc_train, label="Training")
+        plt.plot(acc_test, label="Test")
+        plt.xlabel('Time steps')
+        plt.ylabel('Accuracy')
+        plt.title("Accuracy of minibatches over time steps")
+        plt.legend()
+        plt.show()
 
 
 def print_flags():
@@ -236,6 +235,8 @@ if __name__ == '__main__':
                         help='Frequency of evaluation on the test set')
     parser.add_argument('--data_dir', type=str, default=DATA_DIR_DEFAULT,
                         help='Directory for storing input data')
+    parser.add_argument('--plot', type=bool, default=False,
+                        help='Plot loss and accuracy curves')
     FLAGS, unparsed = parser.parse_known_args()
 
     main()

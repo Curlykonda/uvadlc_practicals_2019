@@ -6,6 +6,10 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
 class MLP(nn.Module):
   """
   This class implements a Multi-layer Perceptron in PyTorch.
@@ -31,13 +35,34 @@ class MLP(nn.Module):
     Implement initialization of the network.
     """
 
-    ########################
-    # PUT YOUR CODE HERE  #
-    #######################
-    raise NotImplementedError
-    ########################
-    # END OF YOUR CODE    #
-    #######################
+    super(MLP, self).__init__() #initialization
+    self.modules = []
+    #check n_hidden
+    if len(n_hidden) > 0:
+        #add first layer that maps input features to dimension of hidden
+        self.modules.append(nn.Linear(n_inputs, n_hidden[0]))
+        self.modules.append(nn.ReLU)
+
+        #add modlues for hidden layers comprising a linear module followed by non-linear
+        #map input dimension to output dimension specified in list n_hidden
+        for i in range(len(n_hidden) -1):
+            self.modules.append(nn.Linear(n_hidden[i], n_hidden[i+1]))
+            self.modules.append(nn.ReLU)
+
+        #add last layer that maps to classes
+        self.modules.append(nn.Linear(n_hidden[-1], n_classes))
+        self.modules.append(nn.Softmax())
+    else:
+        #multinomial logistic regression
+        self.modules = [nn.Linear(n_inputs, n_classes)]
+
+    model = nn.Sequential(*self.modules)
+    '''
+    These belong in the training file!
+    model.zero_grad()
+    loss_fn = nn.CrossEntropyLoss()
+    '''
+
 
   def forward(self, x):
     """
@@ -53,12 +78,6 @@ class MLP(nn.Module):
     Implement forward pass of the network.
     """
 
-    ########################
-    # PUT YOUR CODE HERE  #
-    #######################
-    raise NotImplementedError
-    ########################
-    # END OF YOUR CODE    #
-    #######################
+    out = self.model(x)
 
     return out

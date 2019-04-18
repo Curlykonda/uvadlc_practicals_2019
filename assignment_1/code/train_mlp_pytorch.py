@@ -10,6 +10,7 @@ import argparse
 import numpy as np
 import os
 from pathlib import Path
+import random
 
 import torch
 import torch.nn as nn
@@ -56,10 +57,7 @@ def accuracy(predictions, targets):
 
 def train():
     """
-  Performs training and evaluation of MLP model. 
-
-  TODO:
-  Implement training and evaluation of MLP model. Evaluate your model on the whole test set each eval_freq iterations.
+  Performs training and evaluation of MLP model.
     """
 
     ### DO NOT CHANGE SEEDS!
@@ -136,7 +134,16 @@ def train():
     #define loss function
     loss_fn = nn.CrossEntropyLoss()
 
+    # evaluation metrics
+    acc_train = []
+    acc_test = []
+    loss_train = []
+    loss_test = []
+    best_acc = 0.0
+    results = []
+
     #train the model
+    print("Start training")
     for step in range(max_steps):
 
         #get mini-batch
@@ -154,15 +161,76 @@ def train():
         out = mlp_model.forward(x_train_torch)
 
         #compute loss
-        loss = loss_fn.forward(out, y_train_torch.argmax(dim=1))
+        loss_mb = loss_fn.forward(out, y_train_torch.argmax(dim=1))
 
         #backward pass
-        loss.backward()
+        loss_mb.backward()
         optimizer.step()
 
-        #evaluate training and validation set
+        #evaluate training and validation set (pretty much the same as with Numpy)
+        # perhaps modify learning rate?
+        if (step % eval_freq == 0) or (step == max_steps - 1):
+            print(f"Step: {step}")
+            # compute and store training metrics
+            loss_train.append(loss_mb.item())
+            acc_train.append(accuracy(out, y_train_torch))
+            print("TRAIN acc: {0:.4f}  & loss: {1:.4f}".format(acc_train[-1], loss_train[-1]))
+
+            # compute and store test metrics
+            # Note that we use the test set as validation set!! Only as an exception :P
+            out_test = mlp_model.forward(x_test_torch)
+            loss_val = loss_fn.forward(out_test, y_test_torch.argmax(dim=1))
+            loss_test.append(loss_val.item())
+            acc_test.append(accuracy(out_test, y_test_torch))
+            print("TEST acc: {0:.4f}  & loss: {1:.4f}".format(acc_test[-1], loss_test[-1]))
+
+            results.append([step, acc_train[-1], loss_train[-1], acc_test[-1], loss_test[-1]])
+
+            #if acc_test[-1] > best_acc:
+            #    best_acc = acc_test[-1]
+            #    print("New BEST acc: {0:.4f}".format(best_acc))
+
+            # Early stop when training loss below threshold?
+            if len(loss_train) > 20:
+                prev_losses = loss_train[-20:-10]
+                cur_losses = loss_train[-10:]
+                if (prev_losses - cur_losses) < train_treshold:
+                    print("Training stopped early at step {0}".format(step + 1))
+                    break
+    print("Finished training")
+    print("BEST acc: {0:.4f}".format(best_acc))
 
 
+    res_path = Path.cwd().parent / 'mlp_pytorch_results'
+    #model_path = res_path / 'models'
+
+    if not res_path.exists():
+        res_path.mkdir(parents=True)
+
+    print("Saving results to {0}".format(res_path))
+
+    #model_path.mkdir(parents=True, exist_ok=True)
+    #model_path = model_path / 'mlp_pytorch.csv'
+    res_path = res_path / 'mlp_pytorch.csv'
+
+    mode = 'a'
+    if not res_path.exists():
+        mode = 'w'
+
+    col_names =  ['lr', 'max_steps', 'batch_size', 'dnn_hidden_units', 'optimizer',
+                  'step', 'train_acc', 'train_loss', 'test_acc', 'test_loss']
+
+    with open(res_path, mode) as csv_file:
+        if mode == 'w':
+            csv_file.write(';'.join(col_names) + '\n')
+        for i in range(len(results)):
+            csv_file.write(
+                f'{lr};{max_steps};{batch_size};{dnn_hidden_units};{optim_type};'
+                f'{results[i][0]};{results[i][1]};{results[i][2]};{results[i][3]};{results[i][4]}' + '\n')
+
+            #results.append([step, acc_train[-1], loss_train[-1], acc_test[-1], loss_test[-1]])
+    return results
+    #plot results
 
     ########################
     # END OF YOUR CODE    #
@@ -175,6 +243,73 @@ def print_flags():
   """
     for key, value in vars(FLAGS).items():
         print(key + ' : ' + str(value))
+
+
+def auto_optimize():
+
+    #define different net params
+
+    learning_rates = np.logspace(-5.0, -2.0, num=4, base=10)
+    learning_rates = np.append(learning_rates, learning_rates*2).tolist()
+    max_steps = range(500, 4000, 500)
+    batch_sizes = range(20, 400, 40) #no offense but it's not something like 64, 128, ...
+    optimizers = ['SGD', 'Adam', 'Adadelta']
+
+    dnn_hidden_possibilities = [
+        '1000', '2000', #shallow
+        '100, 100', '500,500',
+        '100, 100, 100', '500,500,500,500',
+        '500, 400, 300, 100', '1000,10,10,10,10',
+        '100, 100, 100, 100, 100', '500,500,500,500,500', #deep
+        '800,400,200,100,50', '1000,500,300,100,50'
+    ]
+
+    #determine params setting
+    net_settings = []
+
+    while len(net_settings) < 10:
+        setting = {}
+        setting["lr"] = random.choice(learning_rates)
+        setting["steps"] = random.choice(max_steps)
+        setting["batch"] = random.choice(batch_sizes)
+        setting["opt"] = random.choice(optimizers)
+        setting["nhidden"] = random.choice(dnn_hidden_possibilities)
+        net_settings.append(setting)
+
+    best_acc = 0.0
+    best_setting = []
+
+    for setting in net_settings:
+        FLAGS.learning_rate = setting["lr"]
+        FLAGS.max_steps = setting["steps"]
+        FLAGS.batch_size = setting["batch"]
+        FLAGS.optimizer = setting["opt"]
+        FLAGS.dnn_hidden_units = setting["nhidden"]
+
+        # run training
+        result = train()[-1]
+
+        # evluate results + save best model
+        if result[2] > best_acc:
+            best_acc = result[2]
+            print("New BEST acc: {0:.4f}".format(best_acc))
+
+
+
+    res_path = Path.cwd().parent / 'mlp_pytorch_results'
+    if not res_path.exists():
+        res_path.mkdir(parents=True)
+    print("Saving results to {0}".format(res_path))
+    # Save an array to a binary file in NumPy .npy format.
+    # np.save(res_path / 'loss_train', loss_train)
+    # np.save(res_path / 'acc_train', acc_train)
+    # np.save(res_path / 'loss_test', loss_test)
+    # np.save(res_path / 'acc_test', acc_test)
+    # Save array to csv file
+    np.savetxt(res_path / 'loss_train.csv', loss_train, delimiter=',')
+    np.savetxt(res_path / 'acc_train.csv', acc_train, delimiter=',')
+    np.savetxt(res_path / 'loss_test.csv', loss_test, delimiter=',')
+    np.savetxt(res_path / 'acc_test.csv', acc_test, delimiter=',')
 
 
 def main():
@@ -208,6 +343,9 @@ if __name__ == '__main__':
                         help='Directory for storing input data')
     parser.add_argument('--optimizer', type=str, default=OPTIMIZER_DEFAULT,
                         help='Type of optimizer: SGD, Adam, Adadelta')
+
+    parser.add_argument('--auto_opt', type=bool, default=False,
+                        help='Set to True to train model with different settings')
 
     FLAGS, unparsed = parser.parse_known_args()
 

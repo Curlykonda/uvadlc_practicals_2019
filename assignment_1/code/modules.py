@@ -208,11 +208,13 @@ class CrossEntropyModule(object):
     Returns:
       out: cross entropy loss
     """
+    #use small epsilon value to deal with zero elements in x
+    self.epsilon = 1e-10
 
     #compute cross entropy according to formula in assignment
-    #out = np.sum(y * (-1) * np.log(x), axis=1).mean()
     #for mini batches compute mean of loss
-    out = -1 * np.sum(y*np.log(x), axis=1)
+    out = -1 * np.sum(y*np.log(x+self.epsilon), axis=1).mean()
+    self.out = out
 
     return out
 
@@ -230,7 +232,8 @@ class CrossEntropyModule(object):
     Implement backward pass of the module.
     """
 
-    #
-    dx = -np.dot(y.T, np.diag(1/x))
+    #gradient of CE
+    #dx = -np.dot(y.T, np.diag(1/x))
+    dx = (-y / (x + self.epsilon)) / y.shape[0]
 
     return dx

@@ -9,6 +9,8 @@ from __future__ import print_function
 import argparse
 import numpy as np
 import os
+from pathlib import Path
+import matplotlib.pyplot as plt
 from mlp_numpy import MLP
 from modules import CrossEntropyModule
 import cifar10_utils
@@ -126,7 +128,7 @@ def train():
         #compute loss
         loss_mb = loss_fn.forward(out, y_train)
         #compute gradient of loss
-        grad_loss = loss_fn.backward(out, y)
+        grad_loss = loss_fn.backward(out, y_train)
 
         #perform backpropagation
         my_MLP.backward(grad_loss) #backprop loss from layer to layer where gradients are save in each module
@@ -142,26 +144,59 @@ def train():
             #compute and store training metrics
             loss_train.append(loss_mb)
             acc_train.append(accuracy(out, y_train))
-            print("TRAIN acc: {0:.4f}  & loss: {1}".format(acc_train[-1], loss_train[-1]))
+            print("TRAIN acc: {0:.4f}  & loss: {1:.4f}".format(acc_train[-1], loss_train[-1]))
 
             #compute and store test metrics
             out_test = my_MLP.forward(x_test)
             loss_test.append(loss_fn.forward(out_test, y_test))
             acc_test.append(accuracy(out_test, y_test))
-            print("TEST acc: {0:.4f}  & loss: {1}".format(acc_test[-1], loss_test[-1]))
+            print("TEST acc: {0:.4f}  & loss: {1:.4f}".format(acc_test[-1], loss_test[-1]))
 
         #Early stop when training loss below threshold?
+            train_treshold = 1e-6
+            if len(loss_train) > 20:
+                prev_losses = loss_train[-20:-10]
+                cur_losses = loss_train[-10:]
+                if (prev_losses - cur_losses) < train_treshold:
+                    print("Training stopped early at step {0}".format(step+1))
+                    break
 
     print("Finished training")
-    res_path = "./mlp_np_results/"
+    res_path = Path.cwd().parent / 'mlp_np_results'
+    if not res_path.exists():
+        res_path.mkdir(parents=True)
     print("Saving results to {0}".format(res_path))
     #Save an array to a binary file in NumPy .npy format.
-    np.save(res_path + "loss_train", loss_train)
-    np.save(res_path + "acc_train", acc_train)
-    np.save(res_path + "loss_test", loss_test)
-    np.save(res_path + "acc_test", acc_test)
+    #np.save(res_path / 'loss_train', loss_train)
+    #np.save(res_path / 'acc_train', acc_train)
+    #np.save(res_path / 'loss_test', loss_test)
+    #np.save(res_path / 'acc_test', acc_test)
+    #Save array to csv file
+    np.savetxt(res_path / 'loss_train.csv', loss_train, delimiter=',')
+    np.savetxt(res_path / 'acc_train.csv', acc_train, delimiter=',')
+    np.savetxt(res_path / 'loss_test.csv', loss_test, delimiter=',')
+    np.savetxt(res_path / 'acc_test.csv', acc_test, delimiter=',')
 
-    #save trained model?
+    #plot results
+    plt.plot(loss_train, label="Training")
+    plt.plot(loss_test, label="Test")
+    plt.xlabel('Time steps')
+    plt.ylabel('Loss')
+
+    plt.title("Loss of minibatches over time steps")
+
+    plt.legend()
+    plt.show()
+
+    plt.plot(acc_train, label="Training")
+    plt.plot(acc_test, label="Test")
+    plt.xlabel('Time steps')
+    plt.ylabel('Accuracy')
+
+    plt.title("Accuracy of minibatches over time steps")
+
+    plt.legend()
+    plt.show()
 
 
 def print_flags():

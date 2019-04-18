@@ -94,8 +94,8 @@ class MLP(object):
     #pass gradient of loss backwards through each layer
     for l in range(self.num_layers -1, -1, -1):
         #non-linear backward pass
-        dout = self.non_lin[i].backward(dout)
+        dout = self.non_lin[l].backward(dout)
         #linear backward pass
-        dout = self.lin_layer[i].backward(dout)
+        dout = self.lin_layer[l].backward(dout)
 
     return

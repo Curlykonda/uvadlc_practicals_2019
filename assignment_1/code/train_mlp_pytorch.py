@@ -59,7 +59,7 @@ def train():
     """
   Performs training and evaluation of MLP model.
     """
-
+    print_flags()
     ### DO NOT CHANGE SEEDS!
     # Set the random seeds for reproducibility
     np.random.seed(42)
@@ -126,8 +126,11 @@ def train():
 
     if optim_type == 'SGD':
         optimizer = torch.optim.SGD(mlp_model.parameters(), lr=lr)
-    else:
+    elif optim_type == 'Adam':
         optimizer = torch.optim.Adam(mlp_model.parameters(), lr=lr)
+    elif optim_type == 'Adadelta':
+        optimizer = torch.optim.Adadelta(mlp_model.parameters(), lr=lr)
+
 
     optimizer.zero_grad()
 
@@ -294,36 +297,21 @@ def auto_optimize():
             best_acc = result[2]
             print("New BEST acc: {0:.4f}".format(best_acc))
 
-
-
-    res_path = Path.cwd().parent / 'mlp_pytorch_results'
-    if not res_path.exists():
-        res_path.mkdir(parents=True)
-    print("Saving results to {0}".format(res_path))
-    # Save an array to a binary file in NumPy .npy format.
-    # np.save(res_path / 'loss_train', loss_train)
-    # np.save(res_path / 'acc_train', acc_train)
-    # np.save(res_path / 'loss_test', loss_test)
-    # np.save(res_path / 'acc_test', acc_test)
-    # Save array to csv file
-    np.savetxt(res_path / 'loss_train.csv', loss_train, delimiter=',')
-    np.savetxt(res_path / 'acc_train.csv', acc_train, delimiter=',')
-    np.savetxt(res_path / 'loss_test.csv', loss_test, delimiter=',')
-    np.savetxt(res_path / 'acc_test.csv', acc_test, delimiter=',')
-
-
 def main():
     """
   Main function
   """
     # Print all Flags to confirm parameter settings
-    print_flags()
+
 
     if not os.path.exists(FLAGS.data_dir):
         os.makedirs(FLAGS.data_dir)
 
-    # Run the training operation
-    train()
+    if FLAGS.auto_opt:
+        auto_optimize()
+    else:
+        # Run the training operation
+        train()
 
 
 if __name__ == '__main__':
@@ -344,7 +332,7 @@ if __name__ == '__main__':
     parser.add_argument('--optimizer', type=str, default=OPTIMIZER_DEFAULT,
                         help='Type of optimizer: SGD, Adam, Adadelta')
 
-    parser.add_argument('--auto_opt', type=bool, default=False,
+    parser.add_argument('--auto_opt', type=bool, default=True,
                         help='Set to True to train model with different settings')
 
     FLAGS, unparsed = parser.parse_known_args()

@@ -102,6 +102,7 @@ def train():
     # get test data
     x_test = cifar10["test"].images
     y_test = cifar10["test"].labels
+    train_data = cifar10["train"]
 
     # determine dimension of data
     x_dim = x_test.shape
@@ -119,21 +120,49 @@ def train():
     y_test_torch = torch.tensor(y_test, dtype=torch.float, device=device)
 
     #initialize MLP model
-    my_MLP = MLP(
+    mlp_model = MLP(
         n_inputs = n_inputs,
         n_hidden= dnn_hidden_units,
         n_classes= n_classes
     ).to(device)
 
     if optim_type == 'SGD':
-        optimizer = torch.optim.SGD(my_MLP.parameters(), lr=lr)
+        optimizer = torch.optim.SGD(mlp_model.parameters(), lr=lr)
     else:
-        optimizer = torch.optim.Adam(my_MLP.parameters(), lr=lr)
+        optimizer = torch.optim.Adam(mlp_model.parameters(), lr=lr)
 
     optimizer.zero_grad()
 
     #define loss function
     loss_fn = nn.CrossEntropyLoss()
+
+    #train the model
+    for step in range(max_steps):
+
+        #get mini-batch
+        x_train, y_train = train_data.next_batch(batch_size)
+        x_train = x_train.reshape((batch_size, n_inputs))
+
+        #transform to tensor representation
+        x_train_torch = torch.tensor(x_train, dtype=torch.float, device=device)
+        y_train_torch = torch.tensor(y_train, dtype=torch.float, device=device) #labels for mb training set
+
+        #set gradients to zero
+        optimizer.zero_grad()
+
+        #forward pass mb to get predictions as output
+        out = mlp_model.forward(x_train_torch)
+
+        #compute loss
+        loss = loss_fn.forward(out, y_train_torch.argmax(dim=1))
+
+        #backward pass
+        loss.backward()
+        optimizer.step()
+
+        #evaluate training and validation set
+
+
 
     ########################
     # END OF YOUR CODE    #

@@ -34,13 +34,12 @@ class CustomBatchNormAutograd(nn.Module):
     """
     super(CustomBatchNormAutograd, self).__init__()
 
-    ########################
-    # PUT YOUR CODE HERE  #
-    #######################
-    raise NotImplementedError
-    ########################
-    # END OF YOUR CODE    #
-    #######################
+    #save variables in object
+    self.epsilon = eps
+    self.n_neurons = n_neurons
+
+    self.gamma = nn.Parameter(torch.ones(n_neurons)) #multiplicative component / rescale
+    self.beta = nn.Parameter(torch.zeros(n_neurons)) #additive component / shift
 
   def forward(self, input):
     """
@@ -57,13 +56,22 @@ class CustomBatchNormAutograd(nn.Module):
       For the case that you make use of torch.var be aware that the flag unbiased=False should be set.
     """
 
-    ########################
-    # PUT YOUR CODE HERE  #
-    #######################
-    raise NotImplementedError
-    ########################
-    # END OF YOUR CODE    #
-    #######################
+    s_input = input.shape # n_batch x n_neurons
+    if s_input[1] != self.n_neurons:
+        raise Exception(f"Number of neurons does not match! Expected: {self.n_neurons}, Received: {s_input[1]}")
+
+    #compute mean
+    mu = input.mean(dim=0)
+    s_mu = mu.shape
+    #compute variance
+    var = input.var(dim=0, unbiased=False)
+    s_var = var.shape
+
+    #normalize
+    in_norm = (input - mu) / (var + self.epsilon).sqrt()
+
+    #scale and shift
+    out = self.gamma * in_norm + self.beta
 
     return out
 
@@ -111,13 +119,26 @@ class CustomBatchNormManualFunction(torch.autograd.Function):
       For the case that you make use of torch.var be aware that the flag unbiased=False should be set.
     """
 
-    ########################
-    # PUT YOUR CODE HERE  #
-    #######################
-    raise NotImplementedError
-    ########################
-    # END OF YOUR CODE    #
-    #######################
+    s_input = input.shape  # n_batch x n_neurons
+    #if s_input[1] != self.n_neurons:
+    #    raise Exception(f"Number of neurons does not match! Expected: {self.n_neurons}, Received: {s_input[1]}")
+
+    # compute mean
+    mu = input.mean(dim=0)
+    s_mu = mu.shape
+    # compute variance
+    var = input.var(dim=0, unbiased=False)
+    s_var = var.shape
+
+    # normalize
+    in_norm = (input - mu) / (var + eps).sqrt()
+
+    # scale and shift
+    out = gamma * in_norm + beta
+
+    #store constants in object
+    ctx.epsilon = eps
+    ctx.save_for_backward = (gamma, beta, in_norm, mu, var)
 
     return out
 
@@ -130,6 +151,8 @@ class CustomBatchNormManualFunction(torch.autograd.Function):
     Args:
       ctx: context object handling storing and retrival of tensors and constants and specifying
            whether tensors need gradients in backward pass
+
+      grad_output: the grad of the output we receive from the previous layer
     Returns:
       out: tuple containing gradients for all input arguments
     
@@ -139,13 +162,9 @@ class CustomBatchNormManualFunction(torch.autograd.Function):
       inputs to None. This should be decided dynamically.
     """
 
-    ########################
-    # PUT YOUR CODE HERE  #
-    #######################
-    raise NotImplementedError
-    ########################
-    # END OF YOUR CODE    #
-    #######################
+    B, dim = grad_output.shape
+
+    (gamma, beta, in_norm, mu, var) = ctx.saved_tensors
 
     # return gradients of the three tensor inputs and None for the constant eps
     return grad_input, grad_gamma, grad_beta, None
@@ -177,13 +196,12 @@ class CustomBatchNormManualModule(nn.Module):
     """
     super(CustomBatchNormManualModule, self).__init__()
 
-    ########################
-    # PUT YOUR CODE HERE  #
-    #######################
-    raise NotImplementedError
-    ########################
-    # END OF YOUR CODE    #
-    #######################
+    #save variables in object
+    self.epsilon = eps
+    self.n_neurons = n_neurons
+
+    self.gamma = nn.Parameter(torch.ones(n_neurons)) #multiplicative component / rescale
+    self.beta = nn.Parameter(torch.zeros(n_neurons)) #additive component / shift
 
   def forward(self, input):
     """

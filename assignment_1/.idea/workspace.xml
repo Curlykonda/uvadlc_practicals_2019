@@ -2,6 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d2817683-1f25-42c4-ab62-e7584b1514d0" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/convnet_pytorch.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/convnet_pytorch.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/custom_batchnorm.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/custom_batchnorm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/mlp_pytorch.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/mlp_pytorch.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/train_convnet_pytorch.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/train_convnet_pytorch.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/train_mlp_numpy.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/train_mlp_numpy.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/code/train_mlp_pytorch.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/train_mlp_pytorch.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -11,12 +17,17 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/assignment_1$custom_batchnorm.coverage" NAME="custom_batchnorm Coverage Results" MODIFIED="1555664626755" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/assignment_1$pytest_for_unittests_TestBatchNorm_test_autograd.coverage" NAME="pytest for unittests.TestBatchNorm.test_autograd Coverage Results" MODIFIED="1555665099804" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/assignment_1$convnet_pytorch.coverage" NAME="convnet_pytorch Coverage Results" MODIFIED="1555660486423" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/assignment_1$train_convnet_pytorch.coverage" NAME="train_convnet_pytorch Coverage Results" MODIFIED="1555661334124" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
     <SUITE FILE_PATH="coverage/assignment_1$pytest_in_unittests_py.coverage" NAME="pytest in unittests.py Coverage Results" MODIFIED="1555494653137" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
     <SUITE FILE_PATH="coverage/assignment_1$pytest_for_unittests_TestLayers_test_linear_backward.coverage" NAME="pytest for unittests.TestLayers.test_linear_backward Coverage Results" MODIFIED="1555423021429" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
     <SUITE FILE_PATH="coverage/assignment_1$mlp_numpy.coverage" NAME="mlp_numpy Coverage Results" MODIFIED="1555494347176" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/assignment_1$pytest_for_unittests_TestBatchNorm.coverage" NAME="pytest for unittests.TestBatchNorm Coverage Results" MODIFIED="1555664718637" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
     <SUITE FILE_PATH="coverage/assignment_1$pytest_for_unittests_TestLayers.coverage" NAME="pytest for unittests.TestLayers Coverage Results" MODIFIED="1555510152212" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
-    <SUITE FILE_PATH="coverage/assignment_1$train_mlp_numpy.coverage" NAME="train_mlp_numpy Coverage Results" MODIFIED="1555580892371" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
-    <SUITE FILE_PATH="coverage/assignment_1$train_mlp_pytorch.coverage" NAME="train_mlp_pytorch Coverage Results" MODIFIED="1555624589292" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/assignment_1$train_mlp_pytorch.coverage" NAME="train_mlp_pytorch Coverage Results" MODIFIED="1555660452482" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/assignment_1$train_mlp_numpy.coverage" NAME="train_mlp_numpy Coverage Results" MODIFIED="1555661272507" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
     <SUITE FILE_PATH="coverage/assignment_1$modules.coverage" NAME="modules Coverage Results" MODIFIED="1555423674612" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
   </component>
   <component name="DatabaseView">
@@ -37,36 +48,38 @@
     <session id="2065566595">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="4" />
+          <entry key="project.closed" value="5" />
           <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.29" value="1" />
           <entry key="project.open.time.30" value="2" />
           <entry key="project.open.time.36" value="1" />
+          <entry key="project.open.time.40" value="1" />
+          <entry key="project.open.time.49" value="1" />
           <entry key="project.open.time.55" value="1" />
-          <entry key="project.opened" value="6" />
+          <entry key="project.opened" value="8" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="19" />
+          <entry key="py" value="30" />
           <entry key="sh" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="PLAIN_TEXT" value="1" />
-          <entry key="Python" value="19" />
+          <entry key="Python" value="30" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Python Console" value="561" />
-          <entry key="py" value="13363" />
+          <entry key="py" value="15312" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="13924" />
+          <entry key="Python" value="15873" />
         </counts>
       </usages-collector>
     </session>
@@ -74,10 +87,25 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/code/mlp_pytorch.py">
+        <entry file="file://$PROJECT_DIR$/code/train_mlp_pytorch.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="990">
-              <caret line="72" column="5" selection-start-line="72" selection-start-column="5" selection-end-line="72" selection-end-column="5" />
+            <state relative-caret-position="2700">
+              <caret line="195" column="42" selection-start-line="195" selection-start-column="42" selection-end-line="195" selection-end-column="42" />
+              <folding>
+                <element signature="e#144#182#0" expanded="true" />
+                <marker date="1555661078690" expanded="true" signature="7766:7768" ph="..." />
+                <marker date="1555661078690" expanded="true" signature="7788:7794" ph="..." />
+                <marker date="1555661078690" expanded="true" signature="7788:9601" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/code/convnet_pytorch.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="398">
+              <caret line="103" column="59" selection-start-line="103" selection-start-column="59" selection-end-line="103" selection-end-column="59" />
               <folding>
                 <element signature="e#123#161#0" expanded="true" />
               </folding>
@@ -85,39 +113,36 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/code/train_convnet_pytorch.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="181">
+              <caret line="120" column="33" selection-start-line="120" selection-start-column="33" selection-end-line="120" selection-end-column="33" />
+              <folding>
+                <element signature="e#150#188#0" expanded="true" />
+                <marker date="1555661311194" expanded="true" signature="5690:5695" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/code/train_mlp_pytorch.py">
+        <entry file="file://$PROJECT_DIR$/code/custom_batchnorm.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-225">
-              <caret line="131" column="40" selection-start-line="131" selection-start-column="40" selection-end-line="131" selection-end-column="40" />
+            <state relative-caret-position="136">
+              <caret line="133" column="11" selection-start-line="133" selection-start-column="4" selection-end-line="133" selection-end-column="11" />
               <folding>
-                <element signature="e#144#182#0" expanded="true" />
-                <marker date="1555624699419" expanded="true" signature="7901:7903" ph="..." />
-                <marker date="1555624699419" expanded="true" signature="7923:7929" ph="..." />
-                <marker date="1555624699419" expanded="true" signature="7923:9532" ph="..." />
+                <element signature="e#0#18#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/anaconda3/envs/dl/lib/python3.7/site-packages/torch/nn/functional.py">
+        <entry file="file://$PROJECT_DIR$/code/unittests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="113">
-              <caret line="1357" selection-start-line="1357" selection-end-line="1357" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/code/train_mlp_numpy.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1530">
-              <caret line="113" selection-start-line="113" selection-end-line="113" />
-              <folding>
-                <element signature="e#142#180#0" expanded="true" />
-                <marker date="1555573865007" expanded="true" signature="6627:6632" ph="..." />
-              </folding>
+            <state relative-caret-position="136">
+              <caret line="43" column="11" selection-start-line="43" selection-start-column="11" selection-end-line="43" selection-end-column="11" />
             </state>
           </provider>
         </entry>
@@ -142,8 +167,11 @@
         <option value="$PROJECT_DIR$/code/mlp_numpy.py" />
         <option value="$PROJECT_DIR$/code/plotresults.py" />
         <option value="$PROJECT_DIR$/code/mlp_pytorch.py" />
-        <option value="$PROJECT_DIR$/code/train_mlp_numpy.py" />
         <option value="$PROJECT_DIR$/code/train_mlp_pytorch.py" />
+        <option value="$PROJECT_DIR$/code/train_mlp_numpy.py" />
+        <option value="$PROJECT_DIR$/code/train_convnet_pytorch.py" />
+        <option value="$PROJECT_DIR$/code/convnet_pytorch.py" />
+        <option value="$PROJECT_DIR$/code/custom_batchnorm.py" />
       </list>
     </option>
   </component>
@@ -156,8 +184,25 @@
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="67" />
     <option name="y" value="25" />
-    <option name="width" value="709" />
+    <option name="width" value="650" />
     <option name="height" value="743" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State />
+          <State>
+            <id>Python</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>PyPep8Inspection</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -165,7 +210,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -182,6 +226,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -203,8 +248,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.train_mlp_pytorch">
-    <configuration name="mlp_numpy" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Python tests.pytest for unittests.TestBatchNorm.test_autograd">
+    <configuration name="custom_batchnorm" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="assignment_1" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -217,7 +262,29 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/code/mlp_numpy.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/code/custom_batchnorm.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="train_convnet_pytorch" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="assignment_1" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/code" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/code/train_convnet_pytorch.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -248,29 +315,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="train_mlp_pytorch" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="assignment_1" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/code" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/code/train_mlp_pytorch.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="pytest for unittests.TestLayers" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+    <configuration name="pytest for unittests.TestBatchNorm" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="assignment_1" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -282,11 +327,11 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_keywords" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;unittests.TestLayers&quot;" />
+      <option name="_new_target" value="&quot;unittests.TestBatchNorm&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="pytest in unittests.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+    <configuration name="pytest for unittests.TestBatchNorm.test_autograd" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="assignment_1" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -298,24 +343,24 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_keywords" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/code/unittests.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="_new_target" value="&quot;unittests.TestBatchNorm.test_autograd&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python tests.pytest in unittests.py" />
-      <item itemvalue="Python.mlp_numpy" />
       <item itemvalue="Python.train_mlp_numpy" />
-      <item itemvalue="Python tests.pytest for unittests.TestLayers" />
-      <item itemvalue="Python.train_mlp_pytorch" />
+      <item itemvalue="Python.train_convnet_pytorch" />
+      <item itemvalue="Python.custom_batchnorm" />
+      <item itemvalue="Python tests.pytest for unittests.TestBatchNorm" />
+      <item itemvalue="Python tests.pytest for unittests.TestBatchNorm.test_autograd" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.train_mlp_pytorch" />
+        <item itemvalue="Python tests.pytest for unittests.TestBatchNorm.test_autograd" />
+        <item itemvalue="Python tests.pytest for unittests.TestBatchNorm" />
+        <item itemvalue="Python.custom_batchnorm" />
+        <item itemvalue="Python.train_convnet_pytorch" />
         <item itemvalue="Python.train_mlp_numpy" />
-        <item itemvalue="Python tests.pytest for unittests.TestLayers" />
-        <item itemvalue="Python tests.pytest in unittests.py" />
-        <item itemvalue="Python.mlp_numpy" />
       </list>
     </recent_temporary>
   </component>
@@ -333,24 +378,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 15h 28m 27s.xml">
-      <configuration name="pytest for unittests.TestLayers" configurationId="tests" />
-    </history-entry>
-    <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 15h 32m 22s.xml">
-      <configuration name="pytest for unittests.TestLayers" configurationId="tests" />
-    </history-entry>
-    <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 15h 38m 49s.xml">
-      <configuration name="pytest for unittests.TestLayers" configurationId="tests" />
-    </history-entry>
-    <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 15h 39m 22s.xml">
-      <configuration name="pytest for unittests.TestLayers" configurationId="tests" />
-    </history-entry>
-    <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 15h 47m 03s.xml">
-      <configuration name="pytest for unittests.TestLayers" configurationId="tests" />
-    </history-entry>
-    <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 15h 51m 05s.xml">
-      <configuration name="pytest for unittests.TestLayers" configurationId="tests" />
-    </history-entry>
     <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 16h 06m 50s.xml">
       <configuration name="pytest for unittests.TestLayers" configurationId="tests" />
     </history-entry>
@@ -362,6 +389,24 @@
     </history-entry>
     <history-entry file="pytest_for_unittests_TestLayers - 2019.04.17 at 16h 09m 13s.xml">
       <configuration name="pytest for unittests.TestLayers" configurationId="tests" />
+    </history-entry>
+    <history-entry file="pytest_for_unittests_TestBatchNorm - 2019.04.19 at 11h 05m 20s.xml">
+      <configuration name="pytest for unittests.TestBatchNorm" configurationId="tests" />
+    </history-entry>
+    <history-entry file="pytest_for_unittests_TestBatchNorm_test_autograd - 2019.04.19 at 11h 05m 30s.xml">
+      <configuration name="pytest for unittests.TestBatchNorm.test_autograd" configurationId="tests" />
+    </history-entry>
+    <history-entry file="pytest_for_unittests_TestBatchNorm_test_autograd - 2019.04.19 at 11h 06m 15s.xml">
+      <configuration name="pytest for unittests.TestBatchNorm.test_autograd" configurationId="tests" />
+    </history-entry>
+    <history-entry file="pytest_for_unittests_TestBatchNorm_test_autograd - 2019.04.19 at 11h 07m 43s.xml">
+      <configuration name="pytest for unittests.TestBatchNorm.test_autograd" configurationId="tests" />
+    </history-entry>
+    <history-entry file="pytest_for_unittests_TestBatchNorm_test_autograd - 2019.04.19 at 11h 10m 29s.xml">
+      <configuration name="pytest for unittests.TestBatchNorm.test_autograd" configurationId="tests" />
+    </history-entry>
+    <history-entry file="pytest_for_unittests_TestBatchNorm_test_autograd - 2019.04.19 at 11h 12m 14s.xml">
+      <configuration name="pytest for unittests.TestBatchNorm.test_autograd" configurationId="tests" />
     </history-entry>
   </component>
   <component name="TodoView">
@@ -377,13 +422,13 @@
     <frame x="67" y="25" width="1299" height="743" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.11093376" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14764565" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32952693" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39967373" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32952693" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39967373" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32952693" />
@@ -421,8 +466,28 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/code/train_mlp_pytorch.py</url>
-          <line>295</line>
-          <option name="timeStamp" value="20" />
+          <line>196</line>
+          <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/code/train_mlp_pytorch.py</url>
+          <line>298</line>
+          <option name="timeStamp" value="26" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/code/convnet_pytorch.py</url>
+          <line>104</line>
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/code/custom_batchnorm.py</url>
+          <line>63</line>
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/code/custom_batchnorm.py</url>
+          <line>60</line>
+          <option name="timeStamp" value="31" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -473,13 +538,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/anaconda3/envs/dl/lib/python3.7/unittest/case.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="614" selection-start-line="614" selection-end-line="614" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/anaconda3/envs/dl/lib/python3.7/codecs.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="173">
@@ -502,34 +560,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/code/unittests.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
-          <caret line="139" selection-start-line="139" selection-end-line="139" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/code/mlp_pytorch.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="990">
-          <caret line="72" column="5" selection-start-line="72" selection-start-column="5" selection-end-line="72" selection-end-column="5" />
-          <folding>
-            <element signature="e#123#161#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/code/train_mlp_numpy.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1530">
-          <caret line="113" selection-start-line="113" selection-end-line="113" />
-          <folding>
-            <element signature="e#142#180#0" expanded="true" />
-            <marker date="1555573865007" expanded="true" signature="6627:6632" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/anaconda3/envs/dl/lib/python3.7/site-packages/torch/nn/functional.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="113">
@@ -537,15 +567,116 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/anaconda3/envs/dl/lib/python3.7/site-packages/torch/autograd/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="278">
+          <caret line="94" column="40" selection-start-line="94" selection-start-column="40" selection-end-line="94" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/mlp_pytorch.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1005">
+          <caret line="73" column="29" selection-start-line="73" selection-start-column="29" selection-end-line="73" selection-end-column="29" />
+          <folding>
+            <element signature="e#123#161#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/code/train_mlp_pytorch.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-225">
-          <caret line="131" column="40" selection-start-line="131" selection-start-column="40" selection-end-line="131" selection-end-column="40" />
+        <state relative-caret-position="2700">
+          <caret line="195" column="42" selection-start-line="195" selection-start-column="42" selection-end-line="195" selection-end-column="42" />
           <folding>
             <element signature="e#144#182#0" expanded="true" />
-            <marker date="1555624699419" expanded="true" signature="7901:7903" ph="..." />
-            <marker date="1555624699419" expanded="true" signature="7923:7929" ph="..." />
-            <marker date="1555624699419" expanded="true" signature="7923:9532" ph="..." />
+            <marker date="1555661078690" expanded="true" signature="7766:7768" ph="..." />
+            <marker date="1555661078690" expanded="true" signature="7788:7794" ph="..." />
+            <marker date="1555661078690" expanded="true" signature="7788:9601" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/train_mlp_numpy.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2235">
+          <caret line="160" column="42" selection-start-line="160" selection-start-column="42" selection-end-line="160" selection-end-column="42" />
+          <folding>
+            <element signature="e#142#180#0" expanded="true" />
+            <marker date="1555661078770" expanded="true" signature="6618:6623" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/convnet_pytorch.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="398">
+          <caret line="103" column="59" selection-start-line="103" selection-start-column="59" selection-end-line="103" selection-end-column="59" />
+          <folding>
+            <element signature="e#123#161#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/train_convnet_pytorch.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="181">
+          <caret line="120" column="33" selection-start-line="120" selection-start-column="33" selection-end-line="120" selection-end-column="33" />
+          <folding>
+            <element signature="e#150#188#0" expanded="true" />
+            <marker date="1555661311194" expanded="true" signature="5690:5695" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/envs/dl/lib/python3.7/site-packages/torch/nn/modules/module.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="488" selection-start-line="488" selection-end-line="488" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/envs/dl/lib/python3.7/unittest/case.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="662" selection-start-line="662" selection-end-line="662" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/envs/dl/lib/python3.7/site-packages/pluggy/callers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="202" selection-start-line="202" selection-end-line="202" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/envs/dl/lib/python3.7/site-packages/_pytest/runner.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="113">
+          <caret line="122" selection-start-line="122" selection-end-line="122" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/envs/dl/lib/python3.7/site-packages/_pytest/unittest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="113">
+          <caret line="220" selection-start-line="220" selection-end-line="220" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/unittests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="43" column="11" selection-start-line="43" selection-start-column="11" selection-end-line="43" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/custom_batchnorm.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="133" column="11" selection-start-line="133" selection-start-column="4" selection-end-line="133" selection-end-column="11" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>

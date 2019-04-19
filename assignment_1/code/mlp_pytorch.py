@@ -93,6 +93,7 @@ class MLP(nn.Module):
     Implement forward pass of the network.
     """
 
+    #just pass it through!
     out = self.model(x)
 
     return out

@@ -157,8 +157,8 @@ def train():
         #Early stop when training loss below threshold?
 
             if len(loss_train) > 20:
-                prev_losses = loss_train[-20:-10]
-                cur_losses = loss_train[-10:]
+                prev_losses = loss_test[-2]
+                cur_losses = loss_test[-1]
                 if (prev_losses - cur_losses) < train_treshold:
                     print("Training stopped early at step {0}".format(step+1))
                     break

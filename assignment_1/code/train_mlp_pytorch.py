@@ -76,9 +76,6 @@ def train():
     else:
         dnn_hidden_units = []
 
-    ########################
-    # PUT YOUR CODE HERE  #
-    #######################
     lr = FLAGS.learning_rate
     max_steps = FLAGS.max_steps
     batch_size = FLAGS.batch_size
@@ -189,14 +186,14 @@ def train():
 
             results.append([step, acc_train[-1], loss_train[-1], acc_test[-1], loss_test[-1]])
 
-            #if acc_test[-1] > best_acc:
-            #    best_acc = acc_test[-1]
-            #    print("New BEST acc: {0:.4f}".format(best_acc))
+            if acc_test[-1] > best_acc:
+                best_acc = acc_test[-1]
+                print("New BEST acc: {0:.4f}".format(best_acc))
 
             # Early stop when training loss below threshold?
             if len(loss_train) > 20:
-                prev_losses = loss_train[-20:-10]
-                cur_losses = loss_train[-10:]
+                prev_losses = loss_test[-2]
+                cur_losses = loss_test[-1]
                 if (prev_losses - cur_losses) < train_treshold:
                     print("Training stopped early at step {0}".format(step + 1))
                     break
@@ -205,7 +202,6 @@ def train():
 
 
     res_path = Path.cwd().parent / 'mlp_pytorch_results'
-    #model_path = res_path / 'models'
 
     if not res_path.exists():
         res_path.mkdir(parents=True)
@@ -220,16 +216,16 @@ def train():
     if not res_path.exists():
         mode = 'w'
 
-    col_names =  ['lr', 'max_steps', 'batch_size', 'dnn_hidden_units', 'optimizer',
-                  'step', 'train_acc', 'train_loss', 'test_acc', 'test_loss']
+    col_names =  ['step', 'train_acc', 'train_loss', 'test_acc', 'test_loss',
+                  'lr', 'max_steps', 'batch_size', 'dnn_hidden_units', 'optimizer']
 
     with open(res_path, mode) as csv_file:
         if mode == 'w':
-            csv_file.write(';'.join(col_names) + '\n')
+            csv_file.write('|'.join(col_names) + '\n')
         for i in range(len(results)):
             csv_file.write(
-                f'{lr};{max_steps};{batch_size};{dnn_hidden_units};{optim_type};'
-                f'{results[i][0]};{results[i][1]};{results[i][2]};{results[i][3]};{results[i][4]}' + '\n')
+                f'{results[i][0]};{results[i][1]};{results[i][2]};{results[i][3]};{results[i][4]}'
+                f'{lr};{max_steps};{batch_size};{dnn_hidden_units};{optim_type};' + '\n')
 
             #results.append([step, acc_train[-1], loss_train[-1], acc_test[-1], loss_test[-1]])
     return results
@@ -252,8 +248,8 @@ def auto_optimize():
 
     #define different net params
 
-    learning_rates = np.logspace(-5.0, -2.0, num=4, base=10)
-    learning_rates = np.append(learning_rates, learning_rates*2).tolist()
+    learning_rates = np.logspace(-4.0, -3.0, num=2, base=10)
+    learning_rates = np.append(learning_rates, learning_rates*5).tolist()
     max_steps = range(500, 4000, 500)
     batch_sizes = range(20, 400, 40) #no offense but it's not something like 64, 128, ...
     optimizers = ['SGD', 'Adam', 'Adadelta']
@@ -269,32 +265,37 @@ def auto_optimize():
 
     #determine params setting
     net_settings = []
-
-    while len(net_settings) < 10:
+    i = 0
+    #while len(net_settings) < 10:
+    while i < len(dnn_hidden_possibilities):
         setting = {}
-        setting["lr"] = random.choice(learning_rates)
+        #setting["lr"] = random.choice(learning_rates)
+        #setting["lr"] = learning_rates[i]
+        setting["lr"] = 1e-3
         setting["steps"] = random.choice(max_steps)
         setting["batch"] = random.choice(batch_sizes)
         setting["opt"] = random.choice(optimizers)
-        setting["nhidden"] = random.choice(dnn_hidden_possibilities)
+        #setting["nhidden"] = random.choice(dnn_hidden_possibilities)
+        setting["nhidden"] = dnn_hidden_possibilities[i]
         net_settings.append(setting)
+        i += 1
 
     best_acc = 0.0
     best_setting = []
 
     for setting in net_settings:
         FLAGS.learning_rate = setting["lr"]
-        FLAGS.max_steps = setting["steps"]
-        FLAGS.batch_size = setting["batch"]
-        FLAGS.optimizer = setting["opt"]
+        #FLAGS.max_steps = setting["steps"]
+        #FLAGS.batch_size = setting["batch"]
+        #FLAGS.optimizer = setting["opt"]
         FLAGS.dnn_hidden_units = setting["nhidden"]
 
         # run training
         result = train()[-1]
 
         # evluate results + save best model
-        if result[2] > best_acc:
-            best_acc = result[2]
+        if result[3] > best_acc:
+            best_acc = result[3]
             print("New BEST acc: {0:.4f}".format(best_acc))
 
 def main():

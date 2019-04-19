@@ -209,7 +209,7 @@ class CrossEntropyModule(object):
       out: cross entropy loss
     """
     #use small epsilon value to deal with zero elements in x
-    self.epsilon = 1e-10
+    self.epsilon = 1e-8
 
     #compute cross entropy according to formula in assignment
     #for mini batches compute mean of loss

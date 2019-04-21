@@ -11,6 +11,7 @@ import numpy as np
 import os
 from convnet_pytorch import ConvNet
 import cifar10_utils
+from pathlib import Path
 
 import torch
 import torch.nn as nn
@@ -173,7 +174,20 @@ def train():
                     break
     print("Finished training")
     print("BEST acc: {0:.4f}".format(best_acc))
-
+    res_path = Path.cwd().parent / 'conv_pytorch_results'
+    if not res_path.exists():
+        res_path.mkdir(parents=True)
+    print("Saving results to {0}".format(res_path))
+    #Save an array to a binary file in NumPy .npy format.
+    #np.save(res_path / 'loss_train', loss_train)
+    #np.save(res_path / 'acc_train', acc_train)
+    #np.save(res_path / 'loss_test', loss_test)
+    #np.save(res_path / 'acc_test', acc_test)
+    #Save array to csv file
+    np.savetxt(res_path / 'loss_train.csv', loss_train, delimiter=',')
+    np.savetxt(res_path / 'acc_train.csv', acc_train, delimiter=',')
+    np.savetxt(res_path / 'loss_test.csv', loss_test, delimiter=',')
+    np.savetxt(res_path / 'acc_test.csv', acc_test, delimiter=',')
 
 def print_flags():
     """

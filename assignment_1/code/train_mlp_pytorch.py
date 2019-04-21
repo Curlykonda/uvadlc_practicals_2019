@@ -11,10 +11,10 @@ import numpy as np
 import os
 from pathlib import Path
 import random
+import itertools
 
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 
 from mlp_pytorch import MLP
 import cifar10_utils
@@ -178,6 +178,7 @@ def train():
 
             # compute and store test metrics
             # Note that we use the test set as validation set!! Only as an exception :P
+            # if test set is too big to fit into memory, use mini-batches as well and average results
             out_test = mlp_model.forward(x_test_torch)
             loss_val = loss_fn.forward(out_test, y_test_torch.argmax(dim=1))
             loss_test.append(loss_val.item())
@@ -194,7 +195,7 @@ def train():
             if len(loss_train) > 20:
                 prev_losses = loss_test[-2]
                 cur_losses = loss_test[-1]
-                if (prev_losses - cur_losses) < train_treshold:
+                if abs(prev_losses - cur_losses) < train_treshold:
                     print("Training stopped early at step {0}".format(step + 1))
                     break
     print("Finished training")
@@ -246,57 +247,76 @@ def print_flags():
 
 def auto_optimize():
 
-    #define different net params
-
-    learning_rates = np.logspace(-4.0, -3.0, num=2, base=10)
-    learning_rates = np.append(learning_rates, learning_rates*5).tolist()
-    max_steps = range(500, 4000, 500)
-    batch_sizes = range(20, 400, 40) #no offense but it's not something like 64, 128, ...
+    # parameters for grid search
+    learning_rates = np.logspace(-4.0, -2.0, num=3, base=10)
+    learning_rates = np.multiply(learning_rates, 2)
+    max_steps = [1000, 3000]
+    batch_sizes = [200, 400]
     optimizers = ['SGD', 'Adam', 'Adadelta']
 
     dnn_hidden_possibilities = [
-        '1000', '2000', #shallow
+        '1000', '2000',  # shallow
         '100, 100', '500,500',
         '100, 100, 100', '500,500,500,500',
-        '500, 400, 300, 100', '1000,10,10,10,10',
-        '100, 100, 100, 100, 100', '500,500,500,500,500', #deep
-        '800,400,200,100,50', '1000,500,300,100,50'
-    ]
+        '500, 400, 300, 100',
+        '100, 100, 100, 100, 100', '500,500,500,500,500',  # deep
+        '800,400,200,100,50'
+        ]
 
-    #determine params setting
-    net_settings = []
+    mlp_settings = list(itertools.product(*[learning_rates, max_steps, batch_sizes, optimizers, dnn_hidden_possibilities]))
+
+    best_results, best_settings = mlp_grid_search(mlp_settings[0:60])
+
+def mlp_grid_search(mlp_settings, simple=False):
+    # ml_settings is list of lists containing
+    # learning_rates, max_steps, batch_sizes, optimizers, dnn_hidden_possibilities
+
+    # determine params setting
+    best_settings = []
+    best_results = []
     i = 0
-    #while len(net_settings) < 10:
-    while i < len(dnn_hidden_possibilities):
-        setting = {}
-        #setting["lr"] = random.choice(learning_rates)
-        #setting["lr"] = learning_rates[i]
-        setting["lr"] = 1e-3
-        setting["steps"] = random.choice(max_steps)
-        setting["batch"] = random.choice(batch_sizes)
-        setting["opt"] = random.choice(optimizers)
-        #setting["nhidden"] = random.choice(dnn_hidden_possibilities)
-        setting["nhidden"] = dnn_hidden_possibilities[i]
-        net_settings.append(setting)
-        i += 1
 
     best_acc = 0.0
-    best_setting = []
+    best_set = []
+    best_res = []
 
-    for setting in net_settings:
-        FLAGS.learning_rate = setting["lr"]
-        #FLAGS.max_steps = setting["steps"]
-        #FLAGS.batch_size = setting["batch"]
-        #FLAGS.optimizer = setting["opt"]
-        FLAGS.dnn_hidden_units = setting["nhidden"]
+    for i, setting in enumerate(mlp_settings):
+        #FLAGS["lr"] = setting[0]
+        #FLAGS["steps"] = setting[1]
+        #FLAGS["batch_size"] = setting[2]
+        #FLAGS["optimizer"] = setting[3]
+        #FLAGS["hidden"] = setting[4]
+
+        FLAGS.learning_rate = setting[0]
+        FLAGS.max_steps = setting[1]
+        FLAGS.batch_size = setting[2]
+        FLAGS.optimizer = setting[3]
+        FLAGS.dnn_hidden_units = setting[4]
 
         # run training
-        result = train()[-1]
+        print("\n")
+        print(f"Model: {i+1}")
+        results = train()
 
-        # evluate results + save best model
-        if result[3] > best_acc:
-            best_acc = result[3]
-            print("New BEST acc: {0:.4f}".format(best_acc))
+        if not simple:
+            # evluate results + save best model
+            if results[-1][3] > best_acc:
+                best_acc = results[-1][3]
+                print("New BEST acc: {0:.4f}".format(best_acc))
+                best_set = setting
+                best_res = results
+
+            if i % 60 == 0:
+                best_settings.append(best_set)
+                best_results.append(best_res)
+                best_set = []
+                best_res = []
+                best_acc = 0
+        else:
+            best_results.append(results)
+            best_settings.append(setting)
+
+    return best_results, best_settings
 
 def main():
     """
@@ -333,7 +353,7 @@ if __name__ == '__main__':
     parser.add_argument('--optimizer', type=str, default=OPTIMIZER_DEFAULT,
                         help='Type of optimizer: SGD, Adam, Adadelta')
 
-    parser.add_argument('--auto_opt', type=bool, default=True,
+    parser.add_argument('--auto_opt', type=bool, default=False,
                         help='Set to True to train model with different settings')
 
     FLAGS, unparsed = parser.parse_known_args()

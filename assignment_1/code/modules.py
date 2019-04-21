@@ -227,13 +227,12 @@ class CrossEntropyModule(object):
       y: labels of the input
     Returns:
       dx: gradient of the loss with the respect to the input x.
-    
-    TODO:
-    Implement backward pass of the module.
+
     """
 
     #gradient of CE
-    #dx = -np.dot(y.T, np.diag(1/x))
-    dx = (-y / (x + self.epsilon)) / y.shape[0]
+    #eps = self.epsilon
+    eps = 1e-8
+    dx = (-y / (x + eps)) / y.shape[0]
 
     return dx

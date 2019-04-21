@@ -27,10 +27,7 @@ class CustomBatchNormAutograd(nn.Module):
     Args:
       n_neurons: int specifying the number of neurons
       eps: small float to be added to the variance for stability
-    
-    TODO:
-      Save parameters for the number of neurons and eps.
-      Initialize parameters gamma and beta via nn.Parameter
+
     """
     super(CustomBatchNormAutograd, self).__init__()
 

@@ -84,6 +84,7 @@ def train():
     plot_results = FLAGS.plot
     train_treshold = 1e-6 #if train loss below that threshold, training stops
 
+
     # evaluation metrics
     acc_train = []
     acc_test = []
@@ -181,21 +182,33 @@ def train():
 
     if plot_results:
         #plot results
-        plt.plot(loss_train, label="Training")
-        plt.plot(loss_test, label="Test")
+        x = range(0, max_steps+eval_freq, eval_freq)
+        plt.plot(x, loss_train, label="Training")
+        plt.plot(x, loss_test, label="Test")
         plt.xlabel('Time steps')
         plt.ylabel('Loss')
-        plt.title("Loss of minibatches over time steps")
+        plt.title("Loss over time steps")
         plt.legend()
         plt.show()
 
-        plt.plot(acc_train, label="Training")
-        plt.plot(acc_test, label="Test")
+        plt.plot(x, acc_train, label="Training")
+        plt.plot(x, acc_test, label="Test")
         plt.xlabel('Time steps')
         plt.ylabel('Accuracy')
-        plt.title("Accuracy of minibatches over time steps")
+        plt.title("Accuracy over time steps")
         plt.legend()
         plt.show()
+
+        print(f"Last train loss: {np.round(loss_train[-1], 4)}")
+        print(f"Best train loss: {np.round(np.min(loss_train), 4)}")
+        print(f"Last train acc: {np.round(acc_train[-1], 4)}")
+        print(f"Best train acc: {np.round(np.max(acc_train), 4)}")
+        print()
+
+        print(f"Last test loss: {np.round(loss_test[-1], 4)}")
+        print(f"Best test loss: {np.round(np.min(loss_test), 4)}")
+        print(f"Last test acc: {np.round(acc_test[-1], 4)}")
+        print(f"Best test acc: {np.round(np.max(acc_test), 4)}")
 
 
 def print_flags():
@@ -235,7 +248,7 @@ if __name__ == '__main__':
                         help='Frequency of evaluation on the test set')
     parser.add_argument('--data_dir', type=str, default=DATA_DIR_DEFAULT,
                         help='Directory for storing input data')
-    parser.add_argument('--plot', type=bool, default=False,
+    parser.add_argument('--plot', type=bool, default=True,
                         help='Plot loss and accuracy curves')
     FLAGS, unparsed = parser.parse_known_args()
 

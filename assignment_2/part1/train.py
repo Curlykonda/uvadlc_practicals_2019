@@ -44,14 +44,15 @@ def train(config):
     device = torch.device(config.device)
 
     # Initialize the model that we are going to use
-    model = VanillaRNN(
-        seq_length=config.input_length,
-        input_dim=config.input_dim,
-        num_hidden=config.num_hidden,
-        num_classes=config.num_classes,
-        batch_size=config.batch_size,
-        device=device
-    )
+    if config.model_type == 'RNN':
+        model = VanillaRNN(
+            seq_length=config.input_length,
+            input_dim=config.input_dim,
+            num_hidden=config.num_hidden,
+            num_classes=config.num_classes,
+            batch_size=config.batch_size,
+            device=device
+        )
 
     # Initialize the dataset and data loader (note the +1)
     dataset = PalindromeDataset(config.input_length+1)
@@ -59,35 +60,48 @@ def train(config):
 
     # Setup the loss and optimizer
     criterion = torch.nn.CrossEntropyLoss()
-    optimizer = torch.optim.RMSProp(params=model.Paramters(), lr=config.learning_rate)
+    optimizer = torch.optim.RMSProp(params=model.parameters(), lr=config.learning_rate)
+
+    # evaluation metrics
+    acc_train = []
+    acc_test = []
+    loss_train = []
+    loss_test = []
+    #best_acc = 0.0
 
     for step, (batch_inputs, batch_targets) in enumerate(data_loader):
 
         # Only for time measurement of step through network
         t1 = time.time()
 
+        #transform into tensor representation
         s_inputs = batch_inputs.shape
-        
+        batch_inputs =batch_inputs.reshape((config.batch_size, config.input_dim))
+        inputs_torch = torch.tensor(batch_inputs, dtype=torch.float, device=device) #perhaps dtype=torch.int
+        targets_torch = torch.tensor(batch_targets, dtype=torch.float, device=device)  #
 
+        #set gradients to zero
         optimizer.zero_grad()
-
-        # Add more code here ...
 
         ############################################################################
         # QUESTION: what happens here and why?
+        # Prevents exploding gradients by rescaling to a limit specified by config.max_norm
+        # Forcing gradients to be within a certain norm to ensure reasonable updates
         ############################################################################
         torch.nn.utils.clip_grad_norm(model.parameters(), max_norm=config.max_norm)
         ############################################################################
 
-        # Add more code here ...
+        #forward pass
+        output = model.forward(inputs_torch) #apply softmax?
 
-        output = model.forward(batch_inputs)
+        #compute loss
+        loss = criterion(output, targets_torch)
 
-        loss = criterion(output, batch_targets)
+        #backward pass & updates
         loss.backward()
         optimizer.step()
 
-        accuracy = 0.0  # fixme
+        accuracy = (predictions.argmax(dim=1) == targets.argmax(dim=1)).float().mean().item() # fixme
 
         # Just for time measurement
         t2 = time.time()

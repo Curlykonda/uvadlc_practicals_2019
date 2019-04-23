@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d2817683-1f25-42c4-ab62-e7584b1514d0" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/assignment_1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/assignment_1.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assignment_2/part1/lstm.py" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment_2/part1/lstm.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../assignment_2/part1/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment_2/part1/train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assignment_2/part1/vanilla_rnn.py" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment_2/part1/vanilla_rnn.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -53,7 +48,7 @@
     <session id="2065566595">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="8" />
+          <entry key="project.closed" value="9" />
           <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.29" value="2" />
           <entry key="project.open.time.30" value="2" />
@@ -68,31 +63,46 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="42" />
+          <entry key="py" value="43" />
           <entry key="sh" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="PLAIN_TEXT" value="1" />
-          <entry key="Python" value="42" />
+          <entry key="Python" value="43" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Python Console" value="590" />
-          <entry key="py" value="18015" />
+          <entry key="py" value="18580" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="18605" />
+          <entry key="Python" value="19170" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/code/train_mlp_pytorch.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="344">
+              <caret line="52" column="89" lean-forward="true" selection-start-line="52" selection-start-column="15" selection-end-line="52" selection-end-column="89" />
+              <folding>
+                <element signature="e#144#182#0" expanded="true" />
+                <marker date="1555874826073" expanded="true" signature="7856:7858" ph="..." />
+                <marker date="1555874826073" expanded="true" signature="7878:7879" ph="..." />
+                <marker date="1555874826073" expanded="true" signature="7878:10104" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../assignment_2/part1/dataset.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -117,8 +127,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../assignment_2/part1/train.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="291">
-              <caret line="69" column="8" selection-start-line="69" selection-start-column="8" selection-end-line="69" selection-end-column="8" />
+            <state relative-caret-position="135">
+              <caret line="94" column="60" selection-start-line="94" selection-start-column="60" selection-end-line="94" selection-end-column="60" />
               <folding>
                 <element signature="e#707#745#0" expanded="true" />
               </folding>
@@ -213,6 +223,15 @@
       <pane id="ProjectPane">
         <subPane>
           <expand>
+            <path>
+              <item name="assignment_1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="assignment_1" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="assignment_1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="assignment_1" type="462c0819:PsiDirectoryNode" />
+              <item name="code" type="462c0819:PsiDirectoryNode" />
+            </path>
             <path>
               <item name="assignment_1" type="b2602c69:ProjectViewProjectNode" />
               <item name="assignment_2" type="462c0819:PsiDirectoryNode" />
@@ -428,7 +447,7 @@
     <frame x="67" y="25" width="1299" height="743" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15642458" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15642458" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -632,19 +651,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/code/train_mlp_pytorch.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="179" column="50" selection-start-line="179" selection-start-column="50" selection-end-line="179" selection-end-column="50" />
-          <folding>
-            <element signature="e#144#182#0" expanded="true" />
-            <marker date="1555874826073" expanded="true" signature="7856:7858" ph="..." />
-            <marker date="1555874826073" expanded="true" signature="7878:7879" ph="..." />
-            <marker date="1555874826073" expanded="true" signature="7878:10104" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/code/mlp_pytorch.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="151">
@@ -700,10 +706,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/code/train_mlp_pytorch.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="344">
+          <caret line="52" column="89" lean-forward="true" selection-start-line="52" selection-start-column="15" selection-end-line="52" selection-end-column="89" />
+          <folding>
+            <element signature="e#144#182#0" expanded="true" />
+            <marker date="1555874826073" expanded="true" signature="7856:7858" ph="..." />
+            <marker date="1555874826073" expanded="true" signature="7878:7879" ph="..." />
+            <marker date="1555874826073" expanded="true" signature="7878:10104" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../assignment_2/part1/train.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="69" column="8" selection-start-line="69" selection-start-column="8" selection-end-line="69" selection-end-column="8" />
+        <state relative-caret-position="135">
+          <caret line="94" column="60" selection-start-line="94" selection-start-column="60" selection-end-line="94" selection-end-column="60" />
           <folding>
             <element signature="e#707#745#0" expanded="true" />
           </folding>

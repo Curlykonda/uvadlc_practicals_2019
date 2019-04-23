@@ -6,6 +6,7 @@
     </content>
     <orderEntry type="jdk" jdkName="Python 3.7 (dl)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="assignment_2" />
   </component>
   <component name="TestRunnerService">
     <option name="projectConfiguration" value="pytest" />

@@ -1,0 +1,43 @@
+#!/bin/bash
+#SBATCH --job-name=rnn_lstm_experiments
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=2
+#SBATCH --ntasks-per-node=1
+#SBATCH --time=0:50:00
+#SBATCH --mem=60000M
+#SBATCH --partition=gpu_shared_course
+#SBATCH --gres=gpu:1
+#SBATCH --mail-user=bartsch.henning@gmail.com
+module purge
+module load eb
+module load Python/3.6.3-foss-2017b
+module load Miniconda3/4.3.27
+module load cuDNN/7.0.5-CUDA-9.0.176
+module load NCCL/2.0.5-CUDA-9.0.176
+module load matplotlib/2.1.1-foss-2017b-Python-3.6.3
+pip3 install --user torch torchvision
+export LD_LIBRARY_PATH=/hpc/eb/Debian9/cuDNN/7.1-CUDA-8.0.44-GCCcore-5.4.0/lib64:$LD_LIBRARY_PATH
+
+source activate dl
+#cp -r /home/lgpu0211/DL/uvadlc_practicals_2019/assignment_2/part1 "$TMPDIR"
+#mkdir "$TMPDIR"/output_lgpu0211
+#cd "$TMPDIR"/part1
+
+cd /home/lgpu0211/DL/uvadlc_practicals_2019/assignment_2/part1/
+
+#Run LSTM variations
+srun python3 ./train.py --model_type=LSTM --input_length=5 --learning_rate=0.001
+srun python3 ./train.py --model_type=LSTM --input_length=10 --learning_rate=0.001
+srun python3 ./train.py --model_type=LSTM --input_length=15 --learning_rate=0.001
+srun python3 ./train.py --model_type=LSTM --input_length=20 --learning_rate=0.001
+srun python3 ./train.py --model_type=LSTM --input_length=25 --learning_rate=0.001
+srun python3 ./train.py --model_type=LSTM --input_length=30 --learning_rate=0.001
+srun python3 ./train.py --model_type=LSTM --input_length=40 --learning_rate=0.001
+srun python3 ./train.py --model_type=LSTM --input_length=50 --learning_rate=0.001
+srun python3 ./train.py --model_type=LSTM --input_length=60 --learning_rate=0.001
+srun python3 ./train.py --model_type=LSTM --input_length=70 --learning_rate=0.001
+
+
+
+
+#cp -r "$TMPDIR"/output_lgpu0211 /home/lgpu0211/DL/uvadlc_practicals_2019/assignment_2/part1/output

@@ -23,10 +23,14 @@ import time
 from datetime import datetime
 from pathlib import Path
 import numpy as np
+import itertools
+import sys
+sys.path.append("..")
 
 import torch
 import torch.nn
 from torch.utils.data import DataLoader
+
 
 from dataset import PalindromeDataset
 from vanilla_rnn import VanillaRNN
@@ -138,10 +142,16 @@ def train(config):
 
     print('Done training.')
 
-    res_path = Path.cwd()
+    return results
 
-    #if not res_path.exists():
-    #    res_path.mkdir(parents=True)
+def save_results(results):
+
+    N = config.n_avg
+
+    res_path = Path.cwd() / 'output'
+
+    if not res_path.exists():
+        res_path.mkdir(parents=True)
 
     print("Saving results to {0}".format(res_path))
 
@@ -151,7 +161,7 @@ def train(config):
     if not res_path.exists():
         mode = 'w'
 
-    col_names = ['step', 'acc', 'loss',
+    col_names = ['mean acc', 'std acc', 'mean loss', 'std loss'
                  'Model', 'seq_length', 'input_dim', 'num_hidden',
                  'lr', 'train_steps', 'batch_size'] #'optimizer'
 
@@ -162,13 +172,44 @@ def train(config):
 
         steps, accs, losses = list(zip(*results))
 
+        #compute average over last N iteration
+        mean_acc = np.mean(accs[-N:])
+        mean_loss = np.mean(losses[-N:])
+
         csv_file.write(
-            f'{results[np.argmax(accs)][0]};{results[np.argmax(accs)][1]};{results[np.argmax(accs)][2]};'
+            f'{mean_acc};{np.std(accs[-N:])};{mean_loss};{np.std(losses[-N:])};'
             f'{config.model_type};{config.input_length};{config.input_dim};{config.num_hidden}'
             f'{config.learning_rate};{config.train_steps};{config.batch_size};' + '\n')
 
 ################################################################################
  ################################################################################
+
+def experiment(config):
+
+    num_iterations = 3
+
+    lrs = [1e-3, 1e-4]
+    seq_lengths = range(5, 105, 5)
+
+    settings = list(itertools.product(*[lrs, seq_lengths]))
+
+    for setting in settings:
+        # set configurations
+        config.learning_rate = setting[0]
+        config.input_length = setting[1]
+        # config.num_hidden = num_hidden
+        # config.batch_size = batch_size
+
+        results = []
+        #train for multiple initialisations because of stochasticity
+        for i in range(num_iterations):
+            train_res = train(config)
+
+            steps, accs, losses = list(zip(*train_res))
+
+            results.append([i, np.mean(accs[-config.n_avg:]), np.mean(losses[-config.n_avg:])])
+
+        save_results(results)
 
 if __name__ == "__main__":
 
@@ -187,9 +228,12 @@ if __name__ == "__main__":
     parser.add_argument('--max_norm', type=float, default=10.0)
     parser.add_argument('--device', type=str, default="cuda:0", help="Training device 'cpu' or 'cuda:0'")
     parser.add_argument('--eval_freq', type=int, default=100, help="Frequency of evaluating model")
+    parser.add_argument('--n_avg', type=int, default=3, help="Averages results over last N batches")
 
 
     config = parser.parse_args()
 
     # Train the model
-    train(config)
+    train_results = train(config)
+    save_results(train_results)
+

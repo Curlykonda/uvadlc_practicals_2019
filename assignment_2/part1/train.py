@@ -118,7 +118,7 @@ def train(config):
         loss.backward()
         optimizer.step()
 
-        accuracy = (predictions.argmax(dim=1) == batch_targets).float().mean().item() #
+        accuracy = (predictions.argmax(dim=1) == batch_targets).float().mean().item()
 
         # Just for time measurement
         t2 = time.time()
@@ -133,7 +133,8 @@ def train(config):
                     accuracy, loss
             ))
 
-            results.append([step, accuracy, loss])
+            l = loss.float().item()
+            results.append([step, accuracy, loss.float().item()])
 
         if step == config.train_steps:
             # If you receive a PyTorch data-loader error, check this bug report:
@@ -161,7 +162,7 @@ def save_results(results):
     if not res_path.exists():
         mode = 'w'
 
-    col_names = ['mean acc', 'std acc', 'mean loss', 'std loss'
+    col_names = ['mean acc', 'std acc', 'mean loss', 'std loss',
                  'Model', 'seq_length', 'input_dim', 'num_hidden',
                  'lr', 'train_steps', 'batch_size'] #'optimizer'
 
@@ -177,9 +178,9 @@ def save_results(results):
         mean_loss = np.mean(losses[-N:])
 
         csv_file.write(
-            f'{mean_acc};{np.std(accs[-N:])};{mean_loss};{np.std(losses[-N:])};'
-            f'{config.model_type};{config.input_length};{config.input_dim};{config.num_hidden}'
-            f'{config.learning_rate};{config.train_steps};{config.batch_size};' + '\n')
+            f"{mean_acc};{np.std(accs[-N:])};{mean_loss};{np.std(losses[-N:])};"
+            f"{config.model_type};{config.input_length};{config.input_dim};{config.num_hidden}"
+            f"{config.learning_rate};{config.train_steps};{config.batch_size};" + '\n')
 
 ################################################################################
  ################################################################################
@@ -224,7 +225,7 @@ if __name__ == "__main__":
     parser.add_argument('--num_hidden', type=int, default=128, help='Number of hidden units in the model')
     parser.add_argument('--batch_size', type=int, default=128, help='Number of examples to process in a batch')
     parser.add_argument('--learning_rate', type=float, default=0.001, help='Learning rate')
-    parser.add_argument('--train_steps', type=int, default=10000, help='Number of training steps')
+    parser.add_argument('--train_steps', type=int, default=1000, help='Number of training steps')
     parser.add_argument('--max_norm', type=float, default=10.0)
     parser.add_argument('--device', type=str, default="cuda:0", help="Training device 'cpu' or 'cuda:0'")
     parser.add_argument('--eval_freq', type=int, default=100, help="Frequency of evaluating model")

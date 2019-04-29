@@ -151,8 +151,9 @@ def save_results(results):
 
     res_path = Path.cwd() / 'output'
 
+
     if not res_path.exists():
-        res_path.mkdir(parents=True)
+        res_path.mkdir(parents=True, exist_ok=True)
 
     print("Saving results to {0}".format(res_path))
 
@@ -176,11 +177,13 @@ def save_results(results):
         #compute average over last N iteration
         mean_acc = np.mean(accs[-N:])
         mean_loss = np.mean(losses[-N:])
+        std_acc = np.std(accs[-N:])
+        std_loss = np.std(losses[-N:])
 
         csv_file.write(
-            f"{mean_acc};{np.std(accs[-N:])};{mean_loss};{np.std(losses[-N:])};"
-            f"{config.model_type};{config.input_length};{config.input_dim};{config.num_hidden}"
-            f"{config.learning_rate};{config.train_steps};{config.batch_size};" + '\n')
+            f'{mean_acc};{std_acc};{mean_loss};{std_loss};'
+            f'{config.model_type};{config.input_length};{config.input_dim};{config.num_hidden};'
+            f'{config.learning_rate};{config.train_steps};{config.batch_size}' + '\n')
 
 ################################################################################
  ################################################################################
@@ -225,7 +228,7 @@ if __name__ == "__main__":
     parser.add_argument('--num_hidden', type=int, default=128, help='Number of hidden units in the model')
     parser.add_argument('--batch_size', type=int, default=128, help='Number of examples to process in a batch')
     parser.add_argument('--learning_rate', type=float, default=0.001, help='Learning rate')
-    parser.add_argument('--train_steps', type=int, default=1000, help='Number of training steps')
+    parser.add_argument('--train_steps', type=int, default=10000, help='Number of training steps')
     parser.add_argument('--max_norm', type=float, default=10.0)
     parser.add_argument('--device', type=str, default="cuda:0", help="Training device 'cpu' or 'cuda:0'")
     parser.add_argument('--eval_freq', type=int, default=100, help="Frequency of evaluating model")
@@ -235,6 +238,7 @@ if __name__ == "__main__":
     config = parser.parse_args()
 
     # Train the model
-    train_results = train(config)
-    save_results(train_results)
+    experiment(config)
+    #train_results = train(config)
+    #save_results(train_results)
 

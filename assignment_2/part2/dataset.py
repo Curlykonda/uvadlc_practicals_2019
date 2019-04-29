@@ -28,15 +28,18 @@ class TextDataset(data.Dataset):
         assert os.path.splitext(filename)[1] == ".txt"
         self._seq_length = seq_length
         self._data = open(filename, 'r').read()
+        #self._data = open(filename, 'r', encoding="latin-1", errors="surrogateescape").read() #if utf-8 fails
         self._chars = list(set(self._data))
         self._data_size, self._vocab_size = len(self._data), len(self._chars)
         print("Initialize dataset with {} characters, {} unique.".format(
             self._data_size, self._vocab_size))
+        # map chars to indices and vice-versa
         self._char_to_ix = { ch:i for i,ch in enumerate(self._chars) }
         self._ix_to_char = { i:ch for i,ch in enumerate(self._chars) }
         self._offset = 0
 
     def __getitem__(self, item):
+        # use offset to start at a random position in the text
         offset = np.random.randint(0, len(self._data)-self._seq_length-2)
         inputs =  [self._char_to_ix[ch] for ch in self._data[offset:offset+self._seq_length]]
         targets = [self._char_to_ix[ch] for ch in self._data[offset+1:offset+self._seq_length+1]]

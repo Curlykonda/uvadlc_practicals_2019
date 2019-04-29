@@ -24,7 +24,7 @@ source activate dl
 #cd "$TMPDIR"/part1
 cd /home/lgpu0211/DL/uvadlc_practicals_2019/assignment_2/part1/
 
-srun python3 ./train.py --model_type=LSTM --input_length=5 --learning_rate=0.001
+srun python3 ./train.py
 
 #cp -r "$TMPDIR"/output_lgpu0211 /home/lgpu0211/DL/uvadlc_practicals_2019/assignment_2/part1/output
 

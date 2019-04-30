@@ -23,7 +23,7 @@ source activate dl
 cd /home/lgpu0211/DL/uvadlc_practicals_2019/assignment_2/part1/
 
 #srun python3 ./train.py --experiment=True --model_type='RNN'
-srun python3 ./train.py --experiment=True --model_type='LSTM'
+srun train.py --experiment=True --model_type='LSTM'
 
 #cp -r "$TMPDIR"/output_lgpu0211 /home/lgpu0211/DL/uvadlc_practicals_2019/assignment_2/part1/output
 

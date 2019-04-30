@@ -39,6 +39,11 @@ from lstm import LSTM
 # You may want to look into tensorboardX for logging
 # from tensorboardX import SummaryWriter
 
+
+torch.manual_seed(43)
+torch.cuda.manual_seed(43)
+np.random.seed(43)
+
 ################################################################################
 
 def train(config):

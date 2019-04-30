@@ -32,6 +32,7 @@ class TextDataset(data.Dataset):
         #self._data = open(filename, 'r', encoding="latin-1", errors="surrogateescape").read() #if utf-8 fails
         self._chars = list(set(self._data))
         self._data_size, self._vocab_size = len(self._data), len(self._chars)
+        self._chars = sorted(self._chars) #sort chars for reproduceability
         print("Initialize dataset with {} characters, {} unique.".format(
             self._data_size, self._vocab_size))
         # map chars to indices and vice-versa

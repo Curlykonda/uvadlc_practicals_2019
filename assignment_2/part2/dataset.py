@@ -27,7 +27,8 @@ class TextDataset(data.Dataset):
     def __init__(self, filename, seq_length):
         assert os.path.splitext(filename)[1] == ".txt"
         self._seq_length = seq_length
-        self._data = open(filename, 'r').read()
+        #self._data = open(filename, 'r').read()
+        self._data = open(filename, 'r', encoding='utf-8').read()
         #self._data = open(filename, 'r', encoding="latin-1", errors="surrogateescape").read() #if utf-8 fails
         self._chars = list(set(self._data))
         self._data_size, self._vocab_size = len(self._data), len(self._chars)

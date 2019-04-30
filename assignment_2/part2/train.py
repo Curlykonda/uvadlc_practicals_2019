@@ -43,7 +43,8 @@ def char2onehot(batch, vocab_size, device='cpu'):
     '''
 
     #create tensor of zeros of shape batch_size x vocab_size
-    one_hots = torch.zeros(batch.shape, vocab_size, device=device)
+    one_hot_dim = [*batch.shape, vocab_size]
+    one_hots = torch.zeros(one_hot_dim, device=device)
     '''
     torch.scatter_(dim, index, src)
     src = 1: these are the values that will be placed at the positions from batch.unsqueeze
@@ -59,6 +60,65 @@ def compute_acc(predictions, true_labels):
     acc /= (predictions.shape[0] * predictions.shape[1])
 
     return acc
+
+def sample_from_model(predictions, temperature):
+
+    sampled_char = ''
+
+
+    '''
+    create distribution over softmax probabilites / temperature
+    sample integer from that distribution 
+    '''
+
+
+    return sampled_char
+
+
+def generate_text(start_char, sentence_length, model, dataset, temperature, device='cpu'):
+
+    #convert start_char to torch
+    text_example = [start_char]
+    start_char = torch.tensor([start_char], dtype=torch.long).to(device)
+
+    #s_start = start_char.shape
+    #text_example = start_char.view(-1).tolist()
+    #one_hot_char = char2onehot(start_char, dataset.vocab_size, device)
+
+    #to avoid computing gradients for parameters we use torch.no_grad() for sampling
+    with torch.no_grad():
+
+        #convert to one-hot for forward pass
+        start_char_oh = char2onehot(start_char, dataset.vocab_size, device)
+
+        # initialise hidden and cell state
+        pred, (hidden, cell) = model(start_char_oh) #returns tensor?
+
+        #greedy sampling
+        sampled_char = pred.argmax(dim=2)[-1, :].item()
+
+        #sampled_char = sample_from_model(pred, temperature)
+        text_example.append(sampled_char)
+
+        while len(text_example) < sentence_length:
+            #sample from model
+            sampled_char_oh = char2onehot(sampled_char, dataset.vocab_size, device)
+
+            #forward pass to generate predictions, hidden and cell states
+            pred, (hidden, cell) = model.forward(sampled_char_oh, (hidden, cell))
+
+            #sample from predictions
+            sampled_char = pred.argmax(dim=2)[-1, :].item()
+
+            #add char to text example
+            text_example.append(sampled_char)
+
+        #map the char ids to a string
+        text_example = dataset.convert_to_string(text_example)
+
+    return text_example
+
+
 
 def train(config):
 
@@ -91,6 +151,7 @@ def train(config):
 
     #Initialise metrics and results dir
     results = []
+    text_samples = []
 
     # make the results directory (if it doesn't exist)
     res_path = Path.cwd() / 'output'
@@ -103,12 +164,9 @@ def train(config):
         # Only for time measurement of step through network
         t1 = time.time()
 
-        #train the model
-        
-
         #convert input to one-hot encoding and tensor representation
-        x_torch = torch.stack(batch_inputs, dim=1).to(device)
-        #x_torch = char2onehot(x_torch, dataset.vocab_size)
+        x_torch = torch.stack(batch_inputs, dim=1).to(device) #shape: batch_size x seq_length
+        x_torch = char2onehot(x_torch, dataset.vocab_size)
 
         y_torch = torch.stack(batch_targets, dim=1).to(device)
 
@@ -116,13 +174,22 @@ def train(config):
 
         #forward pass of mini-batch
         predictions, _ = model(x_torch)
-        loss = criterion(predictions, y_torch) #perhaps transpose predictions?
 
+        #avoid exploding gradients
+        torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=config.max_norm)
 
-        accuracy = torch.sum(predictions.argmax(dim=1) == y_torch).float().mean().item()
+        #y_torch: batch_size x seq_len
+        #pred: batch_size x seq_len x vocab_size
+        #transpose dimensions to compute loss
+        loss = criterion(predictions.transpose(2,1), y_torch) #perhaps transpose predictions?
+
+        #accuracy = torch.sum(predictions.argmax(dim=1) == y_torch).float().mean().item()
+        accuracy = compute_acc(predictions, y_torch)
 
         #save stats
         results.append([step, accuracy, loss.float().item()])
+
+
 
         #backward propagation
         loss.backward()
@@ -134,27 +201,41 @@ def train(config):
 
         if step % config.print_every == 0:
 
-            print("[{}] Train Step {:04d}/{:04d}, Batch Size = {}, Examples/Sec = {:.2f}, "
+            print("[{}] Train Step {}/{}, Batch Size = {}, Examples/Sec = {:.2f}, "
                   "Accuracy = {:.2f}, Loss = {:.3f}".format(
                     datetime.now().strftime("%Y-%m-%d %H:%M"), step,
                     config.train_steps, config.batch_size, examples_per_second,
-                    accuracy, loss
+                    accuracy, loss.item()
             ))
 
         if step == config.sample_every:
             # Generate some sentences by sampling from the model
+            #TODO
+
+            #generate random starting char
+            start_char = np.random.randint(0, high=dataset.vocab_size)
+
+            sampled_text = generate_text(start_char, config.seq_length, model, dataset,
+                                         config.temperature, device=device)
+
+            text_samples.append(f"Step:{step}")
+            text_samples.append(sampled_text)
+            print(f"{text_samples[-2]} {text_samples[-1]}")
+
+
             pass
 
         if step == config.train_steps:
             # If you receive a PyTorch data-loader error, check this bug report:
             # https://github.com/pytorch/pytorch/pull/9655
+
             break
 
     print('Done training.')
 
 
 def print_setting(config):
-    for key, value in config.items():
+    for key, value in vars(config).items():
         print("{0}: {1}".format(key, value))
 
  ################################################################################
@@ -166,7 +247,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     # Model params
-    parser.add_argument('--txt_file', type=str, required=True, help="Path to a .txt file to train on")
+    parser.add_argument('--txt_file', type=str, required=False, default='./assets/book_EN_grimms_fairy_tails.txt', help="Path to a .txt file to train on")
     parser.add_argument('--seq_length', type=int, default=30, help='Length of an input sequence')
     parser.add_argument('--lstm_num_hidden', type=int, default=128, help='Number of hidden units in the LSTM')
     parser.add_argument('--lstm_num_layers', type=int, default=2, help='Number of LSTM layers in the model')
@@ -183,7 +264,6 @@ if __name__ == "__main__":
     parser.add_argument('--train_steps', type=int, default=1e6, help='Number of training steps')
     parser.add_argument('--max_norm', type=float, default=5.0, help='--')
     parser.add_argument('--temperature', type=float, default=1.0, help='Parameter to balance greedy and random strategy for sampling')
-
 
     # Misc params
     parser.add_argument('--summary_path', type=str, default="./summaries/", help='Output path for summaries')

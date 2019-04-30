@@ -4,9 +4,9 @@
     <list default="true" id="d2817683-1f25-42c4-ab62-e7584b1514d0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../assignment_2/part1/job.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment_2/part1/job.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../assignment_2/part1/output/results.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment_2/part1/output/results.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../assignment_2/part1/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment_2/part1/train.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../assignment_2/part2/dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment_2/part2/dataset.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assignment_2/part2/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment_2/part2/model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../assignment_2/part2/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment_2/part2/train.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,13 +20,14 @@
     <SUITE FILE_PATH="coverage/assignment_1$convnet_pytorch.coverage" NAME="convnet_pytorch Coverage Results" MODIFIED="1555660486423" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
     <SUITE FILE_PATH="coverage/assignment_1$train_convnet_pytorch.coverage" NAME="train_convnet_pytorch Coverage Results" MODIFIED="1555661334124" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
     <SUITE FILE_PATH="coverage/assignment_1$pytest_for_unittests_TestLayers_test_relu_backward.coverage" NAME="pytest for unittests.TestLayers.test_relu_backward Coverage Results" MODIFIED="1555672097810" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/assignment_1$train__1_.coverage" NAME="train (1) Coverage Results" MODIFIED="1556548504007" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../assignment_2/part2" />
     <SUITE FILE_PATH="coverage/assignment_1$pytest_for_unittests_TestBatchNorm_test_manual_function.coverage" NAME="pytest for unittests.TestBatchNorm.test_manual_function Coverage Results" MODIFIED="1555671986325" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
     <SUITE FILE_PATH="coverage/assignment_1$pytest_for_unittests_TestLayers_test_softmax_backward.coverage" NAME="pytest for unittests.TestLayers.test_softmax_backward Coverage Results" MODIFIED="1555672102595" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
     <SUITE FILE_PATH="coverage/assignment_1$modules.coverage" NAME="modules Coverage Results" MODIFIED="1555673447282" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
     <SUITE FILE_PATH="coverage/assignment_1$custom_batchnorm.coverage" NAME="custom_batchnorm Coverage Results" MODIFIED="1555664626755" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
     <SUITE FILE_PATH="coverage/assignment_1$lstm.coverage" NAME="lstm Coverage Results" MODIFIED="1556189964140" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../assignment_2/part1" />
     <SUITE FILE_PATH="coverage/assignment_1$pytest_in_unittests_py.coverage" NAME="pytest in unittests.py Coverage Results" MODIFIED="1555673550742" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
-    <SUITE FILE_PATH="coverage/assignment_1$train.coverage" NAME="train Coverage Results" MODIFIED="1556530542448" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../assignment_2/part1" />
+    <SUITE FILE_PATH="coverage/assignment_1$train.coverage" NAME="train Coverage Results" MODIFIED="1556550327583" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../assignment_2/part1" />
     <SUITE FILE_PATH="coverage/assignment_1$mlp_numpy.coverage" NAME="mlp_numpy Coverage Results" MODIFIED="1555494347176" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
     <SUITE FILE_PATH="coverage/assignment_1$pytest_for_unittests_TestLayers_test_linear_backward.coverage" NAME="pytest for unittests.TestLayers.test_linear_backward Coverage Results" MODIFIED="1555672092489" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
     <SUITE FILE_PATH="coverage/assignment_1$pytest_for_unittests_TestBatchNorm.coverage" NAME="pytest for unittests.TestBatchNorm Coverage Results" MODIFIED="1555664718637" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
@@ -55,41 +56,41 @@
     <session id="2065566595">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="11" />
+          <entry key="project.closed" value="12" />
           <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.29" value="3" />
           <entry key="project.open.time.30" value="2" />
           <entry key="project.open.time.31" value="1" />
           <entry key="project.open.time.32" value="2" />
-          <entry key="project.open.time.36" value="2" />
+          <entry key="project.open.time.36" value="3" />
           <entry key="project.open.time.37" value="1" />
           <entry key="project.open.time.40" value="1" />
           <entry key="project.open.time.49" value="1" />
           <entry key="project.open.time.55" value="1" />
-          <entry key="project.opened" value="15" />
+          <entry key="project.opened" value="16" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="49" />
+          <entry key="py" value="53" />
           <entry key="sh" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="PLAIN_TEXT" value="1" />
-          <entry key="Python" value="49" />
+          <entry key="Python" value="53" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="Python Console" value="1023" />
-          <entry key="py" value="24815" />
+          <entry key="Python Console" value="1055" />
+          <entry key="py" value="27111" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="25838" />
+          <entry key="Python" value="28166" />
         </counts>
       </usages-collector>
     </session>
@@ -99,7 +100,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../assignment_2/part1/dataset.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
+            <state relative-caret-position="240">
               <caret line="16" selection-start-line="16" selection-end-line="16" />
               <folding>
                 <element signature="e#705#743#0" expanded="true" />
@@ -108,40 +109,14 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../assignment_2/part1/train.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="136" column="12" selection-start-line="136" selection-start-column="12" selection-end-line="136" selection-end-column="65" />
+            <state relative-caret-position="211">
+              <caret line="171" column="42" selection-start-line="171" selection-start-column="42" selection-end-line="171" selection-end-column="42" />
               <folding>
                 <element signature="e#707#745#0" expanded="true" />
-                <marker date="1556537028543" expanded="true" signature="5100:6287" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../assignment_2/part2/model.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="321">
-              <caret line="55" column="89" selection-start-line="55" selection-start-column="89" selection-end-line="55" selection-end-column="89" />
-              <folding>
-                <element signature="e#634#672#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../assignment_2/part2/train.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="106" column="8" selection-start-line="106" selection-start-column="8" selection-end-line="106" selection-end-column="8" />
-              <folding>
-                <element signature="e#634#672#0" expanded="true" />
-                <marker date="1556545382947" expanded="true" signature="1922:1940" ph="..." />
-                <marker date="1556545382947" expanded="true" signature="4856:4942" ph="..." />
+                <marker date="1556562699746" expanded="true" signature="5136:6375" ph="..." />
               </folding>
             </state>
           </provider>
@@ -150,8 +125,35 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../assignment_2/part2/dataset.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="30" column="110" selection-start-line="30" selection-start-column="110" selection-end-line="30" selection-end-column="110" />
+            <state relative-caret-position="345">
+              <caret line="29" column="48" selection-start-line="29" selection-start-column="48" selection-end-line="29" selection-end-column="48" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../assignment_2/part2/model.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="900">
+              <caret line="64" selection-start-line="64" selection-end-line="64" />
+              <folding>
+                <element signature="e#634#672#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../assignment_2/part2/train.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3045">
+              <caret line="219" selection-start-line="219" selection-end-line="219" />
+              <folding>
+                <element signature="e#634#672#0" expanded="true" />
+                <marker date="1556562699790" expanded="true" signature="2021:2198" ph="..." />
+                <marker date="1556562699790" expanded="true" signature="2288:3752" ph="..." />
+                <marker date="1556562699790" expanded="true" signature="7467:7559" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -189,10 +191,10 @@
         <option value="$PROJECT_DIR$/code/train_mlp_pytorch.py" />
         <option value="$PROJECT_DIR$/../assignment_2/part1/vanilla_rnn.py" />
         <option value="$PROJECT_DIR$/../assignment_2/part1/lstm.py" />
-        <option value="$PROJECT_DIR$/../assignment_2/part1/train.py" />
         <option value="$PROJECT_DIR$/../assignment_2/part2/model.py" />
         <option value="$PROJECT_DIR$/../assignment_2/part2/dataset.py" />
         <option value="$PROJECT_DIR$/../assignment_2/part2/train.py" />
+        <option value="$PROJECT_DIR$/../assignment_2/part1/train.py" />
       </list>
     </option>
   </component>
@@ -205,7 +207,7 @@
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="67" />
     <option name="y" value="25" />
-    <option name="width" value="748" />
+    <option name="width" value="755" />
     <option name="height" value="743" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -242,11 +244,6 @@
             <path>
               <item name="assignment_1" type="b2602c69:ProjectViewProjectNode" />
               <item name="assignment_2" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="assignment_1" type="b2602c69:ProjectViewProjectNode" />
-              <item name="assignment_2" type="462c0819:PsiDirectoryNode" />
-              <item name="part1" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="assignment_1" type="b2602c69:ProjectViewProjectNode" />
@@ -323,6 +320,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="train (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="assignment_2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../assignment_2/part2" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../assignment_2/part2/train.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="train" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="assignment_2" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -367,42 +386,20 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="train_mlp_pytorch" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="assignment_1" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/code" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/code/train_mlp_pytorch.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <list>
-      <item itemvalue="Python.train_mlp_pytorch" />
       <item itemvalue="Python.train_mlp_numpy" />
       <item itemvalue="Python.dataset" />
       <item itemvalue="Python.train" />
       <item itemvalue="Python.lstm" />
+      <item itemvalue="Python.train (1)" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.train" />
+        <item itemvalue="Python.train (1)" />
         <item itemvalue="Python.lstm" />
         <item itemvalue="Python.dataset" />
         <item itemvalue="Python.train_mlp_numpy" />
-        <item itemvalue="Python.train_mlp_pytorch" />
       </list>
     </recent_temporary>
   </component>
@@ -464,7 +461,7 @@
     <frame x="67" y="25" width="1299" height="743" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.10694334" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.10853951" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -523,18 +520,43 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/../assignment_2/part1/train.py</url>
-          <line>182</line>
+          <line>184</line>
           <option name="timeStamp" value="58" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/../assignment_2/part1/train.py</url>
-          <line>177</line>
+          <line>179</line>
           <option name="timeStamp" value="59" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/../assignment_2/part2/model.py</url>
-          <line>15</line>
-          <option name="timeStamp" value="61" />
+          <line>60</line>
+          <option name="timeStamp" value="63" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/../assignment_2/part2/train.py</url>
+          <line>46</line>
+          <option name="timeStamp" value="64" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/../assignment_2/part2/train.py</url>
+          <line>186</line>
+          <option name="timeStamp" value="65" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/../assignment_2/part1/train.py</url>
+          <line>217</line>
+          <option name="timeStamp" value="66" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/../assignment_2/part1/train.py</url>
+          <line>213</line>
+          <option name="timeStamp" value="68" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/../assignment_2/part1/train.py</url>
+          <line>146</line>
+          <option name="timeStamp" value="69" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -578,13 +600,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/anaconda3/envs/dl/lib/python3.7/codecs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="173">
-          <caret line="311" selection-start-line="311" selection-end-line="311" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/code/plotresults.py" />
     <entry file="file://$USER_HOME$/anaconda3/envs/dl/lib/python3.7/site-packages/torch/nn/functional.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -597,13 +612,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="278">
           <caret line="94" column="40" selection-start-line="94" selection-start-column="40" selection-end-line="94" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/anaconda3/envs/dl/lib/python3.7/site-packages/torch/nn/modules/module.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="488" selection-start-line="488" selection-end-line="488" />
         </state>
       </provider>
     </entry>
@@ -719,9 +727,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1245">
           <caret line="88" selection-start-line="88" selection-end-line="88" />
-          <folding>
-            <element signature="e#705#743#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -729,25 +734,33 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="720">
           <caret line="54" column="17" selection-start-line="54" selection-start-column="17" selection-end-line="54" selection-end-column="17" />
-          <folding>
-            <element signature="e#705#743#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../assignment_2/part2/model.py">
+    <entry file="file://$USER_HOME$/anaconda3/envs/dl/lib/python3.7/site-packages/torch/nn/modules/module.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
-          <caret line="55" column="89" selection-start-line="55" selection-start-column="89" selection-end-line="55" selection-end-column="89" />
-          <folding>
-            <element signature="e#634#672#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="105">
+          <caret line="508" selection-start-line="508" selection-end-line="508" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/envs/dl/lib/python3.7/codecs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="173">
+          <caret line="309" column="29" lean-forward="true" selection-start-line="309" selection-start-column="29" selection-end-line="309" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/envs/dl/lib/python3.7/site-packages/torch/utils/data/dataloader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3431">
+          <caret line="818" selection-start-line="818" selection-end-line="818" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../assignment_2/part1/dataset.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
+        <state relative-caret-position="240">
           <caret line="16" selection-start-line="16" selection-end-line="16" />
           <folding>
             <element signature="e#705#743#0" expanded="true" />
@@ -757,30 +770,41 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../assignment_2/part2/dataset.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="30" column="110" selection-start-line="30" selection-start-column="110" selection-end-line="30" selection-end-column="110" />
+        <state relative-caret-position="345">
+          <caret line="29" column="48" selection-start-line="29" selection-start-column="48" selection-end-line="29" selection-end-column="48" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../assignment_2/part1/train.py">
+    <entry file="file://$PROJECT_DIR$/../assignment_2/part2/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="136" column="12" selection-start-line="136" selection-start-column="12" selection-end-line="136" selection-end-column="65" />
+        <state relative-caret-position="900">
+          <caret line="64" selection-start-line="64" selection-end-line="64" />
           <folding>
-            <element signature="e#707#745#0" expanded="true" />
-            <marker date="1556537028543" expanded="true" signature="5100:6287" ph="..." />
+            <element signature="e#634#672#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../assignment_2/part2/train.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="106" column="8" selection-start-line="106" selection-start-column="8" selection-end-line="106" selection-end-column="8" />
+        <state relative-caret-position="3045">
+          <caret line="219" selection-start-line="219" selection-end-line="219" />
           <folding>
             <element signature="e#634#672#0" expanded="true" />
-            <marker date="1556545382947" expanded="true" signature="1922:1940" ph="..." />
-            <marker date="1556545382947" expanded="true" signature="4856:4942" ph="..." />
+            <marker date="1556562699790" expanded="true" signature="2021:2198" ph="..." />
+            <marker date="1556562699790" expanded="true" signature="2288:3752" ph="..." />
+            <marker date="1556562699790" expanded="true" signature="7467:7559" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../assignment_2/part1/train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="171" column="42" selection-start-line="171" selection-start-column="42" selection-end-line="171" selection-end-column="42" />
+          <folding>
+            <element signature="e#707#745#0" expanded="true" />
+            <marker date="1556562699746" expanded="true" signature="5136:6375" ph="..." />
           </folding>
         </state>
       </provider>

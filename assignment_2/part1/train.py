@@ -105,7 +105,7 @@ def train(config):
         # Prevents exploding gradients by rescaling to a limit specified by config.max_norm
         # Forcing gradients to be within a certain norm to ensure reasonable updates
         ############################################################################
-        torch.nn.utils.clip_grad_norm(model.parameters(), max_norm=config.max_norm)
+        torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=config.max_norm)
         ############################################################################
 
         #forward pass
@@ -139,11 +139,12 @@ def train(config):
         if step == config.train_steps:
             # If you receive a PyTorch data-loader error, check this bug report:
             # https://github.com/pytorch/pytorch/pull/9655
+            save_results(results)
             break
 
     print('Done training.')
 
-    return results
+    #return results
 
 def save_results(results):
 
@@ -167,6 +168,7 @@ def save_results(results):
                  'Model', 'seq_length', 'input_dim', 'num_hidden',
                  'lr', 'train_steps', 'batch_size'] #'optimizer'
 
+    #, encoding="latin-1", errors="surrogateescape"
     with open(res_path, mode) as csv_file:
         if mode == 'w':
             csv_file.write('|'.join(col_names) + '\n')
@@ -204,16 +206,16 @@ def experiment(config):
         # config.num_hidden = num_hidden
         # config.batch_size = batch_size
 
-        results = []
+        #results = []
         #train for multiple initialisations because of stochasticity
-        for i in range(num_iterations):
-            train_res = train(config)
+        #for i in range(num_iterations):
+        train_res = train(config)
 
-            steps, accs, losses = list(zip(*train_res))
+        #    steps, accs, losses = list(zip(*train_res))
 
-            results.append([i, np.mean(accs[-config.n_avg:]), np.mean(losses[-config.n_avg:])])
+        #   results.append([i, np.mean(accs[-config.n_avg:]), np.mean(losses[-config.n_avg:])])
 
-        save_results(results)
+        #save_results(train_res)
 
 if __name__ == "__main__":
 
@@ -233,12 +235,14 @@ if __name__ == "__main__":
     parser.add_argument('--device', type=str, default="cuda:0", help="Training device 'cpu' or 'cuda:0'")
     parser.add_argument('--eval_freq', type=int, default=100, help="Frequency of evaluating model")
     parser.add_argument('--n_avg', type=int, default=3, help="Averages results over last N batches")
+    parser.add_argument('--experiment', type=bool, default=False, help="Run experiments")
 
 
     config = parser.parse_args()
 
     # Train the model
-    experiment(config)
-    #train_results = train(config)
-    #save_results(train_results)
+    if config.experiment:
+        experiment(config)
+    else:
+        train(config)
 

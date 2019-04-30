@@ -87,7 +87,7 @@ def char2onehot(batch, vocab_size, device='cpu'):
     dim = 2 to create one-hot encoding along the third axis to get batch_size x seq_length x n
     
     '''
-    one_hots.scatter_(2, batch.unsqueeze(dim=2), 1)
+    one_hots.scatter_(2, batch.unsqueeze(-1), 1)
 
     return one_hots
 
@@ -113,8 +113,8 @@ def sample_from_model(predictions, temperature):
     output_dist = predictions.view(-1).div(temperature).exp()
     balanced_pred = (predictions.squeeze() / temperature).softmax(dim=0)
 
-    sampled_char = torch.multinomial(balanced_pred, 1)[0]
-    sampled_char = balanced_pred.multinomial(dim=1)
+    sampled_char = torch.multinomial(balanced_pred, 1).item()
+    char = torch.multinomial(output_dist, 1).item()
 
     return sampled_char
 
@@ -122,13 +122,13 @@ def sample_from_model(predictions, temperature):
 def generate_text(start_char, sentence_length, model, dataset, temperature=1.0, device='cpu'):
 
     #add start char to text snippet
-    text_example = [start_char]
+    #text_example = [start_char]
 
     #convert start_char to torch
-    start_char = torch.tensor([start_char], dtype=torch.long).to(device)
+    #start_char = torch.tensor([start_char], dtype=torch.long).to(device)
 
-    #s_start = start_char.shape
-    #text_example = start_char.view(-1).tolist()
+    s_start = start_char.shape
+    text_example = start_char.view(-1).tolist()
     #one_hot_char = char2onehot(start_char, dataset.vocab_size, device)
 
     #to avoid computing gradients for parameters we use torch.no_grad() for sampling
@@ -152,14 +152,18 @@ def generate_text(start_char, sentence_length, model, dataset, temperature=1.0, 
         text_example.append(sampled_char)
 
         while len(text_example) < sentence_length:
-            #sample from model
-            sampled_char_oh = char2onehot(sampled_char, dataset.vocab_size, device)
+
+            #covert single char first to tensor and then to one-hot vector
+            sampled_char_oh = char2onehot(torch.tensor(sampled_char, dtype=torch.long, device=device).view(1, -1),
+                                          dataset.vocab_size, device)
 
             #forward pass to generate predictions, hidden and cell states
             pred, (hidden, cell) = model.forward(sampled_char_oh, (hidden, cell))
 
             #sample from predictions
-            sampled_char = pred.argmax(dim=2)[-1, :].item()
+            #sampled_char = pred.argmax(dim=2)[-1, :].item()
+
+            sampled_char = sample_from_model(pred, temperature)
 
             #add char to text example
             text_example.append(sampled_char)
@@ -175,12 +179,12 @@ def train(config):
 
     #Initialize params
     #temperatures = [0.5, 1.0, 2.0]
-    sampled_texts = {t:[] for t in config.temperatures}
+    sampled_texts = {}
 
     # Initialize the device which to run the model on
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-    # Initialize the dataset and data loader (note the +1)
+    # Initialize the dataset and data loader
     dataset = TextDataset(
         filename=config.txt_file,
         seq_length=config.seq_length
@@ -206,7 +210,6 @@ def train(config):
 
     #Initialise metrics and results dir
     results = []
-    text_samples = []
 
     # make the results directory (if it doesn't exist)
     res_path = Path.cwd() / 'output'
@@ -217,92 +220,158 @@ def train(config):
 
     print_setting(config)
 
-    for step, (batch_inputs, batch_targets) in enumerate(data_loader):
+    #use this step counter to run for the whole training steps and re-run the dataloader if necessary
+    cur_step = 0
 
-        # Only for time measurement of step through network
-        t1 = time.time()
+    while cur_step < config.train_steps:
 
-        #convert input to one-hot encoding and tensor representation
-        x_torch = torch.stack(batch_inputs, dim=1).to(device) #shape: batch_size x seq_length
-        x_torch = char2onehot(x_torch, dataset.vocab_size)
+        for step, (batch_inputs, batch_targets) in enumerate(data_loader):
 
-        y_torch = torch.stack(batch_targets, dim=1).to(device)
+            # Only for time measurement of step through network
+            t1 = time.time()
 
-        optimizer.zero_grad()
+            #convert input to one-hot encoding and tensor representation
+            x_torch = torch.stack(batch_inputs, dim=1).to(device) #shape: batch_size x seq_length
+            x_torch = char2onehot(x_torch, dataset.vocab_size)
 
-        #forward pass of mini-batch
-        predictions, _ = model(x_torch)
+            y_torch = torch.stack(batch_targets, dim=1).to(device)
 
-        #avoid exploding gradients
-        torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=config.max_norm)
+            optimizer.zero_grad()
 
-        #y_torch: batch_size x seq_len
-        #pred: batch_size x seq_len x vocab_size
-        #transpose dimensions to compute loss
-        loss = criterion(predictions.transpose(2,1), y_torch) #perhaps transpose predictions?
+            #forward pass of mini-batch
+            predictions, _ = model(x_torch)
 
-        #accuracy = torch.sum(predictions.argmax(dim=1) == y_torch).float().mean().item()
-        accuracy = compute_acc(predictions, y_torch)
+            s_pred = predictions.shape
 
-        #save stats
-        results.append([step, accuracy, loss.float().item()])
+            #avoid exploding gradients
+            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=config.max_norm)
 
+            #y_torch: batch_size x seq_len
+            #pred: batch_size x seq_len x vocab_size
+            #transpose dimensions to compute loss
+            loss = criterion(predictions.transpose(2,1), y_torch) #perhaps transpose predictions?
 
+            #accuracy = torch.sum(predictions.argmax(dim=1) == y_torch).float().mean().item()
+            accuracy = compute_acc(predictions, y_torch)
 
-        #backward propagation
-        loss.backward()
-        optimizer.step()
+            #backward propagation
+            loss.backward()
+            optimizer.step()
 
-        # Just for time measurement
-        t2 = time.time()
-        examples_per_second = config.batch_size/float(t2-t1)
+            # Just for time measurement
+            t2 = time.time()
+            examples_per_second = config.batch_size/float(t2-t1)
 
-        if step % config.print_every == 0:
+            #if step % config.print_every == 0:
+            if cur_step % config.print_every == 0:
 
-            print("[{}] Train Step {}/{:04d}, Batch Size = {}, Examples/Sec = {:.2f}, "
-                  "Accuracy = {:.2f}, Loss = {:.3f}".format(
-                    datetime.now().strftime("%Y-%m-%d %H:%M"), step,
-                    config.train_steps, config.batch_size, examples_per_second,
-                    accuracy, loss.item()
-            ))
+                print("[{}] Train Step {}/{}, Batch Size = {}, Examples/Sec = {:.2f}, "
+                      "Accuracy = {:.2f}, Loss = {:.3f}".format(
+                        datetime.now().strftime("%Y-%m-%d %H:%M"), cur_step,
+                        config.train_steps, config.batch_size, examples_per_second,
+                        accuracy, loss.item()
+                ))
 
+                #save stats
+                results.append([cur_step, accuracy, loss.item()])
 
-            results.append([step, accuracy, loss.item()])
+            #if step == config.sample_every:
+            if cur_step == config.sample_every:
+                # Generate some sentences by sampling from the model
 
-        if step == config.sample_every:
-            # Generate some sentences by sampling from the model
+                #generate random starting char
+                #start_char = np.random.randint(0, high=dataset.vocab_size)
 
-            #generate random starting char
-            start_char = np.random.randint(0, high=dataset.vocab_size)
+                start_char = torch.randint(low=0, high=dataset.vocab_size,
+                                            size=(1, 1), dtype=torch.long, device=device)
 
-            for t in config.temperatures:
-                sampled_text = generate_text(start_char, config.seq_length, model, dataset,
-                                             t, device=device)
+                for t in config.temperatures:
+                    sampled_text = generate_text(start_char, config.seq_length, model, dataset,
+                                                 t, device=device)
 
+                    if cur_step not in sampled_texts:
+                        sampled_texts[cur_step] = [[t, sampled_text]]
+                    else:
+                        sampled_texts[cur_step].append([t, sampled_text])
 
-                text_samples[t].append([step, sampled_text])
-                print(f"Sampled at step {step} with temp {t}: {sampled_text}")
+                    print(f"Sampled at step {cur_step} with temp {t}: >>{sampled_text}<<")
 
-            #create checkpoint
-            create_checkpoint(check_path, filename='grimm', dataset=dataset,
-                              model=model, optimizer=optimizer, results=results, step=step)
+                #create checkpoint
+                create_checkpoint(check_path, filename='grimm', dataset=dataset,
+                                  model=model, optimizer=optimizer, results=results, step=cur_step)
 
+            cur_step += 1
 
-        if step == config.train_steps:
-            # If you receive a PyTorch data-loader error, check this bug report:
-            # https://github.com/pytorch/pytorch/pull/9655
+            #if step == config.train_steps:
+            if cur_step == config.train_steps:
+                # If you receive a PyTorch data-loader error, check this bug report:
+                # https://github.com/pytorch/pytorch/pull/9655
 
-            # save model
-            create_checkpoint(check_path, filename='grimm', dataset=dataset,
-                              model=model, optimizer=optimizer, results=results, step=step)
-            break
+                # save model
+                create_checkpoint(check_path, filename='grimm', dataset=dataset,
+                                  model=model, optimizer=optimizer, results=results, step=step)
+                break
 
     print('Done training.')
 
     #save results
+    save_results(results, sampled_texts, res_path)
+
+def save_results(results, sampled_texts, res_path):
+
+    #N = config.n_avg
+    N = 5
+    file_name = 'grimm'
+
+    #res_path = Path.cwd() / 'output'
+
+    print("Saving results to {0}".format(res_path))
+
+    stats_path = res_path / (f"{file_name}_results.csv")
+
+    mode = 'a'
+    if not stats_path.exists():
+        mode = 'w'
+
+    col_names = ['mean acc', 'std acc', 'mean loss', 'std loss',
+                 'seq_length', 'lstm_num_hidden', 'lstm_num_layers',
+                 'lr', 'train_steps', 'batch_size'] #'optimizer'
 
 
+    with open(res_path, mode, encoding='utf-8') as csv_file:
+        if mode == 'w':
+            csv_file.write('|'.join(col_names) + '\n')
 
+        steps, accs, losses = list(zip(*results))
+
+        #compute average over last N iteration
+        mean_acc = np.mean(accs[-N:])
+        mean_loss = np.mean(losses[-N:])
+        std_acc = np.std(accs[-N:])
+        std_loss = np.std(losses[-N:])
+
+        csv_file.write(
+            f'{mean_acc};{std_acc};{mean_loss};{std_loss};'
+            f'{config.seq_length};{config.lstm_num_hidden};{config.lstm_num_layers};'
+            f'{config.learning_rate};{config.train_steps};{config.batch_size}' + '\n')
+
+    texts_path = res_path / (f"{file_name}_sampled_texts.csv")
+
+    mode = 'a'
+    if not texts_path.exists():
+        mode = 'w'
+
+    col_names = ['Step', 'Temperature', 'Text']
+
+    with open(texts_path, mode) as w:
+        if mode == 'w':
+            w.write('|'.join(col_names) + '\n')
+
+        steps, contents = list(zip(*sampled_texts.items()))
+
+        for s in steps:
+            for c in contents[s]:
+                w.write(f"{s};{c[0]};{c[1]}\n")
 
 
 def print_setting(config):
@@ -338,8 +407,8 @@ if __name__ == "__main__":
 
     # Misc params
     parser.add_argument('--check_path', type=str, default="checkpoints", help='Output path for checkpoints')
-    parser.add_argument('--print_every', type=int, default=5, help='How often to print training progress')
-    parser.add_argument('--sample_every', type=int, default=100, help='How often to sample from the model')
+    parser.add_argument('--print_every', type=int, default=100, help='How often to print training progress')
+    parser.add_argument('--sample_every', type=int, default=200, help='How often to sample from the model')
 
     config = parser.parse_args()
 

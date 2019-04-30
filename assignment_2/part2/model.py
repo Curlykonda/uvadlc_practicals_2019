@@ -61,6 +61,6 @@ class TextGenerationModel(nn.Module):
         out, (hidden_s, cell_s) = self.LSTM(x, hidden_states)
 
         #Linear forward pass
-        out = self.Linear(out)
+        out = self.Linear(out) #shape: batch_size x seq_len x vocab_size
 
         return out, (hidden_s, cell_s)

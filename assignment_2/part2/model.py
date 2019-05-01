@@ -34,12 +34,14 @@ class TextGenerationModel(nn.Module):
         self.lstm_num_hidden = lstm_num_hidden
         self.lstm_num_layers = lstm_num_layers
         self.device = device
+        self.batch_first = True
 
         #LSTM module
         self.LSTM = nn.LSTM(
             input_size=self.vocabulary_size,
             hidden_size=self.lstm_num_hidden,
-            num_layers=self.lstm_num_layers
+            num_layers=self.lstm_num_layers,
+            batch_first=self.batch_first
         )
 
         #linear module

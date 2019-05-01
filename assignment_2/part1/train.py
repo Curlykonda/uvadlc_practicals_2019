@@ -157,7 +157,6 @@ def save_results(results):
 
     res_path = Path.cwd() / 'output'
 
-
     if not res_path.exists():
         res_path.mkdir(parents=True, exist_ok=True)
 
@@ -199,15 +198,15 @@ def experiment(config):
 
     num_iterations = 3
 
-    lrs = [1e-3, 1e-4]
-    seq_lengths = range(5, 105, 5)
+    #lrs = [1e-3, 1e-4]
+    seq_lengths = range(5, 75, 5)
 
-    settings = list(itertools.product(*[lrs, seq_lengths]))
+    #settings = list(itertools.product(*[lrs, seq_lengths]))
 
-    for setting in settings:
+    for l in seq_lengths:
         # set configurations
-        config.learning_rate = setting[0]
-        config.input_length = setting[1]
+        #config.learning_rate = setting[0]
+        config.input_length = l
         # config.num_hidden = num_hidden
         # config.batch_size = batch_size
 

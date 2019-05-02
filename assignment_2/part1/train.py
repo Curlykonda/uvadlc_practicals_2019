@@ -73,6 +73,7 @@ def train(config):
             device=device
         )
 
+    model.to(device)
     # Initialize the dataset and data loader (note the +1)
     dataset = PalindromeDataset(config.input_length+1)
     data_loader = DataLoader(dataset, config.batch_size, num_workers=1)
@@ -82,19 +83,16 @@ def train(config):
     optimizer = torch.optim.RMSprop(params=model.parameters(), lr=config.learning_rate)
 
     # evaluation metrics
-    acc_train = []
-    acc_test = []
-    loss_train = []
-    loss_test = []
     results = []
 
-    #best_acc = 0.0
+    print_setting(config)
 
     for step, (batch_inputs, batch_targets) in enumerate(data_loader):
 
         # Only for time measurement of step through network
         t1 = time.time()
-
+        batch_inputs = batch_inputs.to(device)
+        batch_targets = batch_targets.to(device)
         #transform into tensor representation
         s_inputs = batch_inputs.shape
         s_targets = batch_targets.shape
@@ -102,9 +100,16 @@ def train(config):
         #inputs_torch = torch.tensor(batch_inputs, dtype=torch.float, device=device) #perhaps dtype=torch.int
         #targets_torch = torch.tensor(batch_targets, dtype=torch.float, device=device)  #
 
-        #set gradients to zero
-        optimizer.zero_grad()
+        #forward pass
+        predictions = model.forward(batch_inputs)
 
+        #compute loss
+        loss = criterion(predictions, batch_targets)
+
+        #backward pass & updates
+        # set gradients to zero
+        optimizer.zero_grad()
+        loss.backward()
         ############################################################################
         # QUESTION: what happens here and why?
         # Prevents exploding gradients by rescaling to a limit specified by config.max_norm
@@ -113,17 +118,9 @@ def train(config):
         torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=config.max_norm)
         ############################################################################
 
-        #forward pass
-        predictions = model.forward(batch_inputs) #apply softmax?
-
-        #compute loss
-        loss = criterion(predictions, batch_targets)
-
-        #backward pass & updates
-        loss.backward()
         optimizer.step()
 
-        accuracy = (predictions.argmax(dim=1) == batch_targets).float().mean().item()
+        accuracy = (predictions.argmax(dim=1) == batch_targets).sum().float() / (config.batch_size)
 
         # Just for time measurement
         t2 = time.time()
@@ -138,18 +135,18 @@ def train(config):
                     accuracy, loss
             ))
 
-            l = loss.float().item()
-            results.append([step, accuracy, loss.float().item()])
+            #l = loss.float().item()
+            results.append([step, accuracy.item(), loss.float().item()])
 
         if step == config.train_steps:
             # If you receive a PyTorch data-loader error, check this bug report:
             # https://github.com/pytorch/pytorch/pull/9655
-            save_results(results)
             break
 
-    print('Done training.')
+    print('Done training. \n')
 
-    #return results
+    return results
+
 
 def save_results(results):
 
@@ -160,16 +157,15 @@ def save_results(results):
     if not res_path.exists():
         res_path.mkdir(parents=True, exist_ok=True)
 
-    print("Saving results to {0}".format(res_path))
-
-    res_path = res_path / 'results.csv'
+    res_path = res_path / (f'results_{config.model_type}.csv')
 
     mode = 'a'
     if not res_path.exists():
         mode = 'w'
 
-    col_names = ['mean acc', 'std acc', 'mean loss', 'std loss',
-                 'Model', 'seq_length', 'input_dim', 'num_hidden',
+    col_names = ['seq_length',
+                 'mean acc', 'std acc', 'mean loss', 'std loss',
+                 'input_dim', 'num_hidden',
                  'lr', 'train_steps', 'batch_size'] #'optimizer'
 
     #, encoding="latin-1", errors="surrogateescape"
@@ -187,9 +183,16 @@ def save_results(results):
         std_loss = np.std(losses[-N:])
 
         csv_file.write(
+            f'{config.input_length};'
             f'{mean_acc};{std_acc};{mean_loss};{std_loss};'
-            f'{config.model_type};{config.input_length};{config.input_dim};{config.num_hidden};'
+            f'{config.input_dim};{config.num_hidden};'
             f'{config.learning_rate};{config.train_steps};{config.batch_size}' + '\n')
+
+    print("Saved results to {0}\n".format(res_path))
+
+def print_setting(config):
+    for key, value in vars(config).items():
+        print("{0}: {1}".format(key, value))
 
 ################################################################################
  ################################################################################
@@ -198,28 +201,29 @@ def experiment(config):
 
     num_iterations = 3
 
-    #lrs = [1e-3, 1e-4]
-    seq_lengths = range(5, 75, 5)
+    lrs = [1e-3, 1e-4]
+    seq_lengths = range(5, 85, 5)
 
-    #settings = list(itertools.product(*[lrs, seq_lengths]))
+    settings = list(itertools.product(*[lrs, seq_lengths]))
 
-    for l in seq_lengths:
+    for n, setting in enumerate(settings):
+    #for l in seq_lengths:
+        print(f"Setting: {n+1}/{len(settings)}")
         # set configurations
-        #config.learning_rate = setting[0]
-        config.input_length = l
-        # config.num_hidden = num_hidden
-        # config.batch_size = batch_size
+        config.learning_rate = setting[0]
+        config.input_length = setting[1]
 
-        #results = []
+        results = []
         #train for multiple initialisations because of stochasticity
-        #for i in range(num_iterations):
-        train_res = train(config)
+        for i in range(num_iterations):
+            train_res = train(config)
+            save_results(train_res)
 
-        #    steps, accs, losses = list(zip(*train_res))
+            #steps, accs, losses = list(zip(*train_res))
 
-        #   results.append([i, np.mean(accs[-config.n_avg:]), np.mean(losses[-config.n_avg:])])
+            #results.append([i, np.mean(accs[-config.n_avg:]), np.mean(losses[-config.n_avg:])])
 
-        #save_results(train_res)
+    #save_results(results)
 
 if __name__ == "__main__":
 
@@ -248,5 +252,6 @@ if __name__ == "__main__":
     if config.experiment:
         experiment(config)
     else:
-        train(config)
+        results = train(config)
+        save_results(results)
 

@@ -1,3 +1,6 @@
-*.pyc
+__pycache__/
 
 assignment_1/code/cifar10/cifar-10-batches-py/
+*.pt
+*.job
+*.zip

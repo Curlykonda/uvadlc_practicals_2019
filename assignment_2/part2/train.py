@@ -95,37 +95,27 @@ def compute_acc(predictions, true_labels):
     acc = (predictions.argmax(dim=2) == true_labels).sum().float()
     acc /= (predictions.shape[0] * predictions.shape[1])
 
-    return acc
+    return acc.item()
 
 def sample_from_model(predictions, temperature):
     '''
-    create distribution over softmax probabilites / temperature
+    create distribution over softmax probabilites
+    :param temperature to scale probabilities
     sample integer from that distribution 
     '''
     s_pred = predictions.shape
-    preds = predictions.view(-1)
 
-    #softmax before or after balancing?
-    output_dist = predictions.view(-1).div(temperature).exp()
     balanced_pred = (predictions.squeeze() / temperature).softmax(dim=0)
 
     sampled_char = torch.multinomial(balanced_pred, 1).item()
-    char = torch.multinomial(output_dist, 1).item()
+    #char = torch.multinomial(output_dist, 1).item()
 
     return sampled_char
 
 
 def generate_text(start_char, sentence_length, model, dataset, temperature=1.0, greedy=False, device='cpu'):
 
-    #create empty list
-    #text_example = []
-
-    #convert start_char to torch
-    #start_char = torch.tensor([start_char], dtype=torch.long).to(device)
-
     s_start = start_char.shape
-
-    #one_hot_char = char2onehot(start_char, dataset.vocab_size, device)
 
     #to avoid computing gradients for parameters we use torch.no_grad() for sampling
     with torch.no_grad():
@@ -135,52 +125,47 @@ def generate_text(start_char, sentence_length, model, dataset, temperature=1.0, 
         start_char_oh = char2onehot(start_char, dataset.vocab_size, device=device)
 
         # initialise hidden and cell state
-        pred, (hidden, cell) = model(start_char_oh)
+        out, (hidden, cell) = model(start_char_oh)
 
         s_h = hidden.shape
         s_c = cell.shape
-        s_pred = [*pred.shape]
 
-        if s_pred[1] > 1:
-            #pred18 = pred[:,18,:]
-            pred_1 = pred[:, -1, :]
+        s_pred = [*out.shape]
 
-            hidden = hidden[:, -1, :].unsqueeze_(1)
-            cell = cell[:, -1, :].unsqueeze_(1)
+        #out = out[:, -1, :]
 
-        pred = pred[:, -1, :]
-
+        #generate character from model output
         if greedy:
             #greedy sampling
-            #sampled_char = pred.argmax(dim=2)[-1, :].item()
-            sampled_char = pred.argmax(dim=1).item()
-            #s_char = pred.argmax(dim=2)[-1, :]  # tensor([idx])
-            #s_char1 = pred.argmax(dim=2)
+            sampled_char = out[:, -1, :].squeeze().argmax().item() #return simple int
         else:
             #balanced sampling
-            sampled_char = sample_from_model(pred, temperature)
+            sampled_char = sample_from_model(out[:, -1, :], temperature) #return simple int
+            #s_c = sampled_char.shape
 
         #sampled_char = sample_from_model(pred, temperature)
         text_example.append(sampled_char)
 
         while len(text_example) < sentence_length:
 
-            #covert single char first to tensor and then to one-hot vector
+            #convert single char first to tensor and then to one-hot vector
             sampled_char_oh = char2onehot(torch.tensor(sampled_char, dtype=torch.long, device=device).view(1, -1),
                                           dataset.vocab_size, device=device)
 
             #forward pass to generate predictions, hidden and cell states
-            pred, (hidden, cell) = model.forward(sampled_char_oh, (hidden, cell))
+            out, (hidden, cell) = model.forward(sampled_char_oh, (hidden, cell))
+
+            s_h = hidden.shape
+            s_c = cell.shape
+            s_o = out.shape
 
             #sample from predictions
             if greedy:
                 # greedy sampling
-                sampled_char = pred.argmax(dim=2)[-1, :].item()
-                #s_char = pred.argmax(dim=2)[-1, :] #tensor([idx])
-                #s_char1 = pred.argmax(dim=2)
+                sampled_char = out[:, -1, :].squeeze().argmax().item()
             else:
                 # balanced sampling
-                sampled_char = sample_from_model(pred, temperature)
+                sampled_char = sample_from_model(out[:, -1, :], temperature)
 
             #add char to text example
             text_example.append(sampled_char)
@@ -193,10 +178,6 @@ def generate_text(start_char, sentence_length, model, dataset, temperature=1.0, 
 
 
 def train(config):
-
-    #Initialize params
-    #temperatures = [0.5, 1.0, 2.0]
-
 
     # Initialize the device which to run the model on
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -307,7 +288,8 @@ def train(config):
                 else:
                     sampled_texts[cur_step].append(["greedy", greedy_text])
 
-                print(f"Sampled at step {cur_step} with greedy: >>{greedy_text}<<")
+                print(f"Sampled at step {cur_step}")
+                print(f"with greedy: >>{greedy_text}<<")
 
                 for t in config.temperatures:
                     sampled_text = generate_text(start_char, config.seq_length, model, dataset,
@@ -315,28 +297,28 @@ def train(config):
 
                     sampled_texts[cur_step].append([t, sampled_text])
 
-                    print(f"Sampled at step {cur_step} with temp {t}: >>{sampled_text}<<")
+                    print(f"with temp {t}: >>{sampled_text}<<")
 
                 if config.snippet_completion:
-                    #Complete text snippet T>30
-                    T = 40
-                    snippet = "Alice began to feel"
-                    snippet = list(snippet)
-                    snippet_as_char_ids = dataset.convert_to_ix(snippet)
-                    snippet_torch = torch.tensor([snippet_as_char_ids], dtype=torch.long, device=device) #shape: 1x19
 
-                    # greedy sampling
-                    greedy_text = generate_text(snippet_torch, T, model, dataset, greedy=True, device=device)
-                    sampled_texts[cur_step].append(["greedy", greedy_text])
-                    print(f"Sampled at step {cur_step} with greedy: >>{greedy_text}<<")
+                    for T in [config.text_length, config.text_length*2]:
+                        #convert to string to ids for each char
+                        snippet_as_char_ids = dataset.convert_to_ix(list(config.snippet))
+                        snippet_torch = torch.tensor([snippet_as_char_ids], dtype=torch.long, device=device) #shape: 1x19
 
-                    for t in config.temperatures:
-                        sampled_text = generate_text(snippet_torch, T, model, dataset,
-                                                     t, device=device)
+                        # greedy sampling
+                        greedy_text = generate_text(snippet_torch, T, model, dataset, greedy=True, device=device)
+                        sampled_texts[cur_step].append(["greedy", greedy_text])
+                        print(f"Completed snippet >{config.snippet}< with T={T}")
+                        print(f"with greedy as: {greedy_text}")
 
-                        sampled_texts[cur_step].append([t, sampled_text])
+                        for t in config.temperatures:
+                            sampled_text = generate_text(snippet_torch, T, model, dataset,
+                                                         t, device=device)
 
-                        print(f"Sampled at step {cur_step} with temp {t}: >>{sampled_text}<<")
+                            sampled_texts[cur_step].append([t, sampled_text])
+
+                            print(f"with temp {t} as: >>{sampled_text}<<")
 
                 #create checkpoint
                 create_checkpoint(check_path, filename=config.book_name, dataset=dataset,
@@ -361,41 +343,10 @@ def train(config):
 
 def save_results(results, sampled_texts, res_path):
 
-    #N = config.n_avg
-    N = 5
     file_name = config.book_name
+    stats_path = res_path / (f"{file_name}_results")
 
-    #res_path = Path.cwd() / 'output'
-
-    print("Saving results to {0}".format(res_path))
-
-    stats_path = res_path / (f"{file_name}_results.csv")
-
-    mode = 'a'
-    if not stats_path.exists():
-        mode = 'w'
-
-    col_names = ['mean acc', 'std acc', 'mean loss', 'std loss',
-                 'seq_length', 'lstm_num_hidden', 'lstm_num_layers',
-                 'lr', 'train_steps', 'batch_size'] #'optimizer'
-
-
-    with open(stats_path, mode, encoding='utf-8') as csv_file:
-        if mode == 'w':
-            csv_file.write('|'.join(col_names) + '\n')
-
-        steps, accs, losses = list(zip(*results))
-
-        #compute average over last N iteration
-        mean_acc = np.mean(accs[-N:])
-        mean_loss = np.mean(losses[-N:])
-        std_acc = np.std(accs[-N:])
-        std_loss = np.std(losses[-N:])
-
-        csv_file.write(
-            f'{mean_acc};{std_acc};{mean_loss};{std_loss};'
-            f'{config.seq_length};{config.lstm_num_hidden};{config.lstm_num_layers};'
-            f'{config.learning_rate};{config.train_steps};{config.batch_size}' + '\n')
+    np.save(stats_path, results)
 
     texts_path = res_path / (f"{file_name}_sampled_texts.csv")
 
@@ -405,20 +356,16 @@ def save_results(results, sampled_texts, res_path):
 
     col_names = ['Step', 'Temperature', 'Text']
 
-    with open(texts_path, mode) as w:
+    with open(texts_path, mode, encoding='utf-8', errors = "surrogateescape") as w:
         if mode == 'w':
             w.write('|'.join(col_names) + '\n')
 
-        #steps, contents = list(zip(*sampled_texts.items()))
-
-        #for s in steps:
-        #    for c in contents[s]:
-        #        w.write(f"{s};{c[0]};{c[1]}\n")
         for key in sampled_texts.keys():
             contents = sampled_texts[key]
             for c in contents:
-                w.write(f"{key};{c[0]};{c[1]}\n")
+                w.write(f"{key}|{c[0]}|{c[1]}\n")
 
+    print("Saved results to {0}".format(res_path))
 
 def print_setting(config):
     for key, value in vars(config).items():
@@ -453,13 +400,15 @@ if __name__ == "__main__":
     parser.add_argument('--train_steps', type=int, default=1e6, help='Number of training steps')
     parser.add_argument('--max_norm', type=float, default=5.0, help='--')
     parser.add_argument('--temperatures', type=float, default=[0.5, 1.0, 2.0], help='Parameter to balance greedy and random strategy for sampling')
-    parser.add_argument('--snippet_completion', type=bool, default=False, help='Generates text given a snippet')
-    parser.add_argument('--snippet', type=str, default='', help='Snippet that Generator completes')
 
     # Misc params
     parser.add_argument('--check_path', type=str, default="checkpoints", help='Output path for checkpoints')
     parser.add_argument('--print_every', type=int, default=100, help='How often to print training progress')
     parser.add_argument('--sample_every', type=int, default=200, help='How often to sample from the model')
+
+    parser.add_argument('--snippet_completion', type=bool, default=False, help='Generates text given a snippet')
+    parser.add_argument('--snippet', type=str, default='Alice began to', help='Snippet that Generator completes')
+    parser.add_argument('--text_length', type=int, default=50, help='Text length for snippet completion')
 
     config = parser.parse_args()
 

@@ -93,12 +93,9 @@ def train(config):
         t1 = time.time()
         batch_inputs = batch_inputs.to(device)
         batch_targets = batch_targets.to(device)
-        #transform into tensor representation
+
         s_inputs = batch_inputs.shape
         s_targets = batch_targets.shape
-        #batch_inputs =batch_inputs.reshape((config.batch_size, config.input_dim))
-        #inputs_torch = torch.tensor(batch_inputs, dtype=torch.float, device=device) #perhaps dtype=torch.int
-        #targets_torch = torch.tensor(batch_targets, dtype=torch.float, device=device)  #
 
         #forward pass
         predictions = model.forward(batch_inputs)
@@ -168,10 +165,9 @@ def save_results(results):
                  'input_dim', 'num_hidden',
                  'lr', 'train_steps', 'batch_size'] #'optimizer'
 
-    #, encoding="latin-1", errors="surrogateescape"
     with open(res_path, mode) as csv_file:
         if mode == 'w':
-            csv_file.write('|'.join(col_names) + '\n')
+            csv_file.write(';'.join(col_names) + '\n')
         #for i in range(len(results)):
 
         steps, accs, losses = list(zip(*results))
@@ -200,30 +196,24 @@ def print_setting(config):
 def experiment(config):
 
     num_iterations = 3
-
-    lrs = [1e-3, 1e-4]
-    seq_lengths = range(5, 85, 5)
-
-    settings = list(itertools.product(*[lrs, seq_lengths]))
+    if config.auto_experiment:
+        lrs = [1e-3, 1e-4]
+        seq_lengths = range(5, 85, 5)
+        settings = list(itertools.product(*[lrs, seq_lengths]))
+    else:
+        seq_lengths = range(config.input_length, config.input_length+20, 5)
+        settings = list(itertools.product(*[[config.learning_rate], seq_lengths]))
 
     for n, setting in enumerate(settings):
-    #for l in seq_lengths:
         print(f"Setting: {n+1}/{len(settings)}")
         # set configurations
         config.learning_rate = setting[0]
         config.input_length = setting[1]
 
-        results = []
         #train for multiple initialisations because of stochasticity
         for i in range(num_iterations):
             train_res = train(config)
             save_results(train_res)
-
-            #steps, accs, losses = list(zip(*train_res))
-
-            #results.append([i, np.mean(accs[-config.n_avg:]), np.mean(losses[-config.n_avg:])])
-
-    #save_results(results)
 
 if __name__ == "__main__":
 
@@ -243,7 +233,8 @@ if __name__ == "__main__":
     parser.add_argument('--device', type=str, default="cuda:0", help="Training device 'cpu' or 'cuda:0'")
     parser.add_argument('--eval_freq', type=int, default=100, help="Frequency of evaluating model")
     parser.add_argument('--n_avg', type=int, default=3, help="Averages results over last N batches")
-    parser.add_argument('--experiment', type=bool, default=False, help="Run experiments")
+    parser.add_argument('--experiment', type=bool, default=True, help="Run experiments")
+    parser.add_argument('--auto_experiment', type=bool, default=False, help="Run hardcoded experiments")
 
 
     config = parser.parse_args()

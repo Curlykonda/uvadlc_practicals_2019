@@ -26,7 +26,7 @@ import numpy as np
 
 class LSTM(nn.Module):
 
-    def __init__(self, seq_length, input_dim, num_hidden, num_classes, batch_size, device='cpu'):
+    def __init__(self, seq_length, input_dim, num_hidden, num_classes, batch_size, device='cpu', mu=0, std=0.001):
         super(LSTM, self).__init__()
 
         # params
@@ -37,8 +37,8 @@ class LSTM(nn.Module):
         self.batch_size = batch_size
         self.device = device
 
-        mu = 0
-        std = 0.01
+        #mu = 0
+        #std = 0.001
 
         #input modulation gate
         self.w_gx = nn.Parameter(torch.Tensor(self.input_dim, self.num_hidden).normal_(mean=mu, std=std).to(self.device))
@@ -79,7 +79,7 @@ class LSTM(nn.Module):
 
         #compute hidden states
         for idx in range(self.seq_length):
-            x_i = x[:, idx].view(self.batch_size, 1)
+            x_i = x[:, idx].view(self.batch_size, 1).to(self.device)
             #input modulation
             g = self.tanh(x_i @ self.w_gx +
                           h @ self.w_gh +

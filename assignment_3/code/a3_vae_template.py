@@ -199,7 +199,7 @@ def save_elbo_plot(train_curve, val_curve, filename):
     plt.tight_layout()
     plt.savefig(filename)
 
-def save_vae_samples(model, epoch, path, n_row=8):
+def save_vae_samples(model, epoch, path, n_row=5):
 
     with torch.no_grad():
         sample_ims, im_means = model.sample(n_row**2)
@@ -207,6 +207,7 @@ def save_vae_samples(model, epoch, path, n_row=8):
         sample_ims = make_grid(sample_ims, nrow=n_row)
 
         #format sampled images
+        #sample.view(n_samples, 1, 28, 28)
         samples = sample_ims.cpu().numpy().transpose(1,2,0)
 
         #save samples

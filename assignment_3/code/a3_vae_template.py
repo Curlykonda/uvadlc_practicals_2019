@@ -216,6 +216,9 @@ def save_vae_samples(model, epoch, path, n_row=5):
         plt.imsave(path + "/" + file_name, samples)
         print(f"Saved {file_name}\n")
 
+def plot_data_manifold():
+    pass
+
 def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -250,12 +253,17 @@ def main():
         # --------------------------------------------------------------------
         save_vae_samples(model, epoch, res_path)
 
+
+    np.save(res_path + '/train_elbo', train_curve)
+    np.save(res_path + '/val_elbo', val_curve)
+    save_elbo_plot(train_curve, val_curve, (res_path + '/elbo.pdf'))
+
     # --------------------------------------------------------------------
     #  Add functionality to plot plot the learned data manifold after
     #  if required (i.e., if zdim == 2).
     # --------------------------------------------------------------------
-
-    save_elbo_plot(train_curve, val_curve, 'elbo.pdf')
+    if ARGS.zdim == 2:
+        plot_data_manifold()
 
 
 if __name__ == "__main__":

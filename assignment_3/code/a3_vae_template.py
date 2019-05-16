@@ -1,6 +1,7 @@
 import argparse
 import numpy as np
 from pathlib import Path
+import os
 
 import torch
 import torch.nn as nn
@@ -8,7 +9,8 @@ import matplotlib.pyplot as plt
 from torchvision.utils import make_grid
 
 from datasets.bmnist import bmnist
-
+import sys
+sys.path.append("..")
 
 class Encoder(nn.Module):
 
@@ -87,7 +89,7 @@ class VAE(nn.Module):
     def compute_elbo(self, input, recon, mu, std):
 
         std = std + self.eps
-        #recon = recon + self.eps
+        recon = recon + self.eps
 
         #reconstruction loss: neg log likelihood Bernoulli
         #See Kingma & Welling Appendix C1
@@ -97,8 +99,8 @@ class VAE(nn.Module):
         #regularisation loss: KL-divergence approx posterior and prior, Gaussian case
         #See Kingma & Welling Appendix B
         var = std.pow(2)
-        reg_loss = 0.5 * torch.sum(1 + torch.log(var) - mu.pow(2) - var)
-
+        #reg_loss = 0.5 * torch.sum(1 + torch.log(var) - mu.pow(2) - var, dim=1)
+        reg_loss = 0.5 * torch.sum(mu.pow(2) + var - 1 - torch.log(var), dim=1)
         return torch.mean(recon_loss + reg_loss, dim=0)
 
     def forward(self, input):
@@ -108,18 +110,18 @@ class VAE(nn.Module):
         """
 
         #encode
-        mu, std = self.encoder(input)
+        mean, std = self.encoder(input)
 
         #reparameterise
-        epsilon = torch.randn_like(std).to(self.device)
-        z = mu + std * epsilon
+        epsilon = torch.randn_like(std).to(self.device) # noise from unit Gaussian
+        z = mean + std * epsilon
         z.to(self.device)
 
         #decode
-        recon = self.decoder(z)
+        recon = self.decoder(z) #shape: batch_size x data_dim
 
         #compute elbo
-        average_negative_elbo = self.compute_elbo(input, recon, mu, std)
+        average_negative_elbo = self.compute_elbo(input, recon, mean, std)
 
         return average_negative_elbo
 
@@ -169,7 +171,7 @@ def epoch_iter(model, data, optimizer):
             elbo.backward()
             optimizer.step()
 
-    average_epoch_elbo += elbo.item()
+        average_epoch_elbo += elbo.item()
 
     return average_epoch_elbo / i
 
@@ -200,7 +202,6 @@ def save_elbo_plot(train_curve, val_curve, filename):
     plt.savefig(filename)
 
 def save_vae_samples(model, epoch, path, n_row=5):
-
     with torch.no_grad():
         sample_ims, im_means = model.sample(n_row**2)
         #transform samples to grid represenation
@@ -212,7 +213,7 @@ def save_vae_samples(model, epoch, path, n_row=5):
 
         #save samples
         file_name = (f"sample_{epoch}.png")
-        plt.imsave(path / file_name, samples)
+        plt.imsave(path + "/" + file_name, samples)
         print(f"Saved {file_name}\n")
 
 def main():
@@ -227,24 +228,27 @@ def main():
     optimizer = torch.optim.Adam(model.parameters())
 
     # make the results directory
-    res_path = Path.cwd() / 'out_vae'
-    res_path.mkdir(parents=True, exist_ok=True)
+    #res_path = Path.cwd() / 'out_vae'
+    #res_path.mkdir(parents=True, exist_ok=True)
+    res_path = "./out_vae"
+    os.makedirs(res_path, exist_ok=True)
 
     #sample from VAE
     save_vae_samples(model, epoch=0, path=res_path)
-
     train_curve, val_curve = [], []
+    print(f"Start training for {ARGS.epochs} epochs")
+
     for epoch in range(1, ARGS.epochs+1):
         elbos = run_epoch(model, data, optimizer)
         train_elbo, val_elbo = elbos
         train_curve.append(train_elbo)
         val_curve.append(val_elbo)
-        print(f"[Epoch {epoch}] train elbo: {train_elbo} val_elbo: {val_elbo}")
+        print(f"[Epoch {epoch}] train elbo: {train_elbo:.4f} val_elbo: {val_elbo:.4f}")
 
         # --------------------------------------------------------------------
         #  Add functionality to plot samples from model during training.
         # --------------------------------------------------------------------
-        save_vae_samples(epoch, res_path)
+        save_vae_samples(model, epoch, res_path)
 
     # --------------------------------------------------------------------
     #  Add functionality to plot plot the learned data manifold after

@@ -24,5 +24,5 @@ source activate dl
 cd /home/lgpu0211/DL/uvadlc_practicals_2019/assignment_3/code
 ls
 
-python3 a3_vae_template.py
+python3 a3_vae_template.py --zdim=2
 

@@ -2,9 +2,12 @@ import argparse
 import numpy as np
 from pathlib import Path
 import os
+from scipy.stats import norm
 
 import torch
 import torch.nn as nn
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from torchvision.utils import make_grid
 
@@ -32,7 +35,7 @@ class Encoder(nn.Module):
             self.fc1,
             nn.ReLU(),
             nn.Linear(hidden_dim, z_dim),
-            nn.Softplus() #assures that std is non-negative
+            nn.Sigmoid() #assures that std is non-negative
         )
 
     def forward(self, input):
@@ -136,7 +139,7 @@ class VAE(nn.Module):
 
         #decode latent vectors
         sampled_ims = self.decoder(z)
-        print(f"Shape sampled ims:{sampled_ims.shape}")
+        #print(f"Shape sampled ims:{sampled_ims.shape}")
 
         #compute means
         im_means = sampled_ims.mean(dim=0)
@@ -191,13 +194,15 @@ def run_epoch(model, data, optimizer):
     return train_elbo, val_elbo
 
 
-def save_elbo_plot(train_curve, val_curve, filename):
+def save_elbo_plot(train_curve, val_curve, path):
+    filename = path + "/elbo.png"
     plt.figure(figsize=(12, 6))
     plt.plot(train_curve, label='train elbo')
     plt.plot(val_curve, label='validation elbo')
     plt.legend()
     plt.xlabel('epochs')
     plt.ylabel('ELBO')
+    plt.title("Negative Average ELBO of the VAE during training")
     plt.tight_layout()
     plt.savefig(filename)
 
@@ -208,31 +213,66 @@ def save_vae_samples(model, epoch, path, n_row=5):
         sample_ims = make_grid(sample_ims, nrow=n_row)
 
         #format sampled images
-        #sample.view(n_samples, 1, 28, 28)
+        #sample_ims.view(n_samples, 1, 28, 28)
         samples = sample_ims.cpu().numpy().transpose(1,2,0)
 
         #save samples
-        file_name = (f"sample_{epoch}.png")
+        file_name = (f"sample_z{ARGS.zdim}_{epoch}.png")
         plt.imsave(path + "/" + file_name, samples)
         print(f"Saved {file_name}\n")
 
-def plot_data_manifold():
-    pass
+def plot_data_manifold(model, res_path, n_row=20, im_dim=28):
+
+    #Following explanation from:
+    #https://jmetzen.github.io/2015-11-27/vae.html
+
+    #initialise grid
+    nx = ny = n_row
+    x_vals = np.linspace(0.0001, 0.9999, nx) #evenly spaced probability space
+    y_vals = np.linspace(0.0001, 0.9999, ny)
+    grid = np.empty((im_dim*nx, im_dim*ny))
+
+    with torch.no_grad():
+        for i, yi in enumerate(x_vals):
+            for j, xi in enumerate(y_vals):
+                #sample latent vector
+                #Percent point function (ppf): inverse of cumulative distribution function (cdf) of our Gaussian
+                #PPF (Quantile function) covers part with significant density
+                z = torch.from_numpy(np.array([[norm.ppf(xi), norm.ppf(yi)]]).astype('float32'))
+                z.to(model.device)
+                #forward pass to get image
+                sampled_im = model.decoder.forward(z)
+                #fill the grid position with sampled image
+                grid[i*im_dim:(i+1)*im_dim, j*im_dim:(j+1)*im_dim] = sampled_im[0].reshape(im_dim, im_dim)
+
+    #plot and save grid manifold
+    plt.gray()
+    plt.figure(figsize=(8, 10))
+    Xi, Yi = np.meshgrid(x_vals, y_vals)
+    plt.plot(grid)
+    plt.tight_layout()
+    plt.imsave(res_path + "/manifold.png", grid)
+
+def print_setting(config):
+    for key, value in vars(config).items():
+        print("{0}: {1}".format(key, value))
 
 def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     data = bmnist()[:2]  # ignore test split
 
+    ARGS.device = device
+
+    print_setting(ARGS)
+
     #initialise VAE model
     model = VAE(z_dim=ARGS.zdim, device=device)
     model.to(device)
 
-    optimizer = torch.optim.Adam(model.parameters())
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
 
     # make the results directory
-    #res_path = Path.cwd() / 'out_vae'
-    #res_path.mkdir(parents=True, exist_ok=True)
     res_path = "./out_vae"
     os.makedirs(res_path, exist_ok=True)
 
@@ -256,21 +296,22 @@ def main():
 
     np.save(res_path + '/train_elbo', train_curve)
     np.save(res_path + '/val_elbo', val_curve)
-    save_elbo_plot(train_curve, val_curve, (res_path + '/elbo.pdf'))
+    save_elbo_plot(train_curve, val_curve, res_path)
 
     # --------------------------------------------------------------------
     #  Add functionality to plot plot the learned data manifold after
     #  if required (i.e., if zdim == 2).
     # --------------------------------------------------------------------
     if ARGS.zdim == 2:
-        plot_data_manifold()
+        plot_data_manifold(model, res_path)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--epochs', default=40, type=int,
+
+    parser.add_argument('--epochs', default=40, type=int, #40
                         help='max number of epochs')
-    parser.add_argument('--zdim', default=20, type=int,
+    parser.add_argument('--zdim', default=20, type=int, #20
                         help='dimensionality of latent space')
 
     ARGS = parser.parse_args()

@@ -104,6 +104,7 @@ class VAE(nn.Module):
         var = std.pow(2)
         #reg_loss = 0.5 * torch.sum(1 + torch.log(var) - mu.pow(2) - var, dim=1)
         reg_loss = 0.5 * torch.sum(mu.pow(2) + var - 1 - torch.log(var), dim=1)
+
         return torch.mean(recon_loss + reg_loss, dim=0)
 
     def forward(self, input):

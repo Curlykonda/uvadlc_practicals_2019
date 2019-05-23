@@ -2,6 +2,8 @@ import argparse
 
 import torch
 import torch.nn as nn
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import torch.nn.functional as F
 import numpy as np
@@ -19,8 +21,8 @@ def log_prior(x):
     Compute the elementwise log probability of a standard Gaussian, i.e.
     N(x | mu=0, sigma=1).
     """
-    pi_tensor = torch.tensor(np.pi)
-    logp = torch.sum(- 0.5 * x.pow(2) - torch.log(torch.sqrt(2* pi_tensor)))
+    pi_tensor = torch.tensor(2*np.pi)
+    logp = torch.sum(- 0.5 * x.pow(2) - torch.log(torch.sqrt(pi_tensor)), dim=1)
 
     return logp
 
@@ -51,7 +53,7 @@ def get_mask():
 
 
 class Coupling(torch.nn.Module):
-    def __init__(self, c_in, mask, n_hidden=1024, device='cpu'):
+    def __init__(self, c_in, mask, n_hidden=1024):
         super().__init__()
         self.n_hidden = n_hidden
 
@@ -66,15 +68,23 @@ class Coupling(torch.nn.Module):
             nn.ReLU(),
             nn.Linear(n_hidden, n_hidden),
             nn.ReLU(),
-            nn.Linear(n_hidden, 2*c_in)
             )
+        self.trans_net = nn.Linear(n_hidden, c_in)
+        self.scale_net = nn.Sequential(
+            nn.Linear(n_hidden, c_in),
+            nn.Tanh()
+        )
 
         # The nn should be initialized such that the weights of the last layer
         # is zero, so that its initial transform is identity.
-        self.nn[-1].weight.data.zero_()
-        self.nn[-1].bias.data.zero_()
+        #self.nn[-1].weight.data.zero_()
+        #self.nn[-1].bias.data.zero_()
+        self.trans_net.weight.data.zero_()
+        self.trans_net.bias.data.zero_()
+        self.scale_net[0].weight.data.zero_()
+        self.scale_net[0].bias.data.zero_()
 
-        self.tanh = nn.Tanh()
+        #self.tanh = nn.Tanh()
 
     def forward(self, z, ldj, reverse=False):
         # Implement the forward and inverse for an affine coupling layer. Split
@@ -87,9 +97,12 @@ class Coupling(torch.nn.Module):
         # from the NN.
 
         z_masked = z * self.mask
+        hidden = self.nn(z_masked)
+        trans = self.trans_net(hidden)
+        log_scale = self.scale_net(hidden)
 
-        log_scale, trans = self.nn(z_masked).chunk(2, dim=1)
-        log_scale = self.tanh(log_scale)
+        #log_scale, trans = self.nn(z_masked).chunk(2, dim=1)
+        #log_scale = self.tanh(log_scale)
 
 
         if not reverse:
@@ -119,8 +132,8 @@ class Flow(nn.Module):
         self.layers = torch.nn.ModuleList()
 
         for i in range(n_flows):
-            self.layers.append(Coupling(c_in=channels, mask=mask))
-            self.layers.append(Coupling(c_in=channels, mask=1-mask))
+            self.layers.append(Coupling(c_in=channels, mask=mask)) #first half
+            self.layers.append(Coupling(c_in=channels, mask=1-mask)) #second half
 
         self.z_shape = (channels,)
 
@@ -240,7 +253,7 @@ def epoch_iter(model, data, optimizer):
     n_batches = i + 1
     img_shape = imgs.shape[1] # 28 x 28
     #compute average bit per dimension for one epoch
-    avg_bpd = bpds / (n_batches * img_shape * np.log(2))
+    avg_bpd = bpds / (n_batches * (28**2) * np.log(2))
 
     return avg_bpd
 

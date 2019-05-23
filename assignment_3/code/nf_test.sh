@@ -1,9 +1,9 @@
 #!/bin/bash
-#SBATCH --job-name=lstm_generator_alice
+#SBATCH --job-name=nf_model
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=3
 #SBATCH --ntasks-per-node=1
-#SBATCH --time=3:30:00
+#SBATCH --time=0:30:00
 #SBATCH --mem=60000M
 #SBATCH --partition=gpu_shared_course
 #SBATCH --gres=gpu:1
@@ -18,9 +18,10 @@ module load matplotlib/2.1.1-foss-2017b-Python-3.6.3
 pip3 install --user torch torchvision
 export LD_LIBRARY_PATH=/hpc/eb/Debian9/cuDNN/7.1-CUDA-8.0.44-GCCcore-5.4.0/lib64:$LD_LIBRARY_PATH
 
+
 source activate dl
 
 cd /home/lgpu0211/DL/uvadlc_practicals_2019/assignment_3/code
 
-python3 a3_gan_template.py --fix_D=True --add_iter_G=5 --res_path="./GAN_focusG/"
+python3 a3_nf_template.py
 
